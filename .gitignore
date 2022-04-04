@@ -69,6 +69,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# file: ~/.gitignore_global
+.DS_Store
+.idea
+
 # Exceptions
 !*.dll
 !*.obj
