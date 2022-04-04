@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Mi\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Mi\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_GameOfVlad2.1895082672.00" t="ExcludeRecursive" />
+    <e p="D:\MyProjectProgramm\MyProjectGames\GameOfVlad2\GameOfVlad2" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="ProjectUtils" t="Include">
+          <e p="GitIntegration.cs" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="RigidbodyModels" t="Include">
+            <e p="DynamicRigidbodyModelBase.cs" t="Include" />
+            <e p="Mobs" t="Include">
+              <e p="MobModelBase.cs" t="Include" />
+            </e>
+            <e p="Player" t="Include">
+              <e p="Player.cs" t="Include" />
+              <e p="PlayerMoveController.cs" t="Include" />
+              <e p="PlayerWeaponController.cs" t="Include" />
+              <e p="Weapons" t="Include">
+                <e p="Weapon.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Projectiles" t="Include">
+              <e p="ProjectileModelBase.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Utils" t="Include">
+            <e p="Helpers.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="GameOfVlad2.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
