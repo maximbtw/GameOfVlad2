@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RigidbodyModels.Weapons;
+using UnityEngine;
 
 namespace RigidbodyModels.Player
 {
@@ -46,6 +47,11 @@ namespace RigidbodyModels.Player
         protected override bool TryGetDirection(out Vector2 direction)
         {
             return _moveController.TryGetDirection(out direction);
+        }
+
+        public Weapon GetCurrentWeapon()
+        {
+            return _weaponController.CurrentWeapon;
         }
     }
 }

@@ -12,7 +12,9 @@ namespace RigidbodyModels
 
         private Rigidbody2D _body;
         private Vector2 _direction;
-        
+
+        public Vector2 Position => _body.position;
+
         protected virtual void Start()
         {
             LoadRigidbody();
