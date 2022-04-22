@@ -14,7 +14,7 @@ namespace RigidbodyModels.Player
             { Weapon.Classic, typeof(WeaponClassic) }
         };
 
-        private Dictionary<Weapon, WeaponModelBase> _availableWeapons;
+        private Dictionary<Weapon, WeaponBase> _availableWeapons;
         private int MaxAvailableWeaponIndex => _availableWeapons.Count - 1;
         
         public Weapon CurrentWeapon { get; private set; }
@@ -25,7 +25,7 @@ namespace RigidbodyModels.Player
             {
                 Type weaponType = _weaponTypeByWeaponIndex[weapon];
 
-                _availableWeapons.Add(weapon, (WeaponModelBase)gameObject.AddComponent(weaponType));
+                _availableWeapons.Add(weapon, (WeaponBase)gameObject.AddComponent(weaponType));
             }
         }
         
@@ -56,7 +56,7 @@ namespace RigidbodyModels.Player
 
         private void LoadAvailableWeapon()
         {
-            _availableWeapons = new Dictionary<Weapon, WeaponModelBase>()
+            _availableWeapons = new Dictionary<Weapon, WeaponBase>()
             {
                 { Weapon.None, null }
             };
@@ -99,6 +99,8 @@ namespace RigidbodyModels.Player
             }
 
             CurrentWeapon = (Weapon)newWeaponIndex;
+            
+            Debug.Log("Weapon switch to "+ CurrentWeapon);
         }
 
         private static int HandleUserInput()

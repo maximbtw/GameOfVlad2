@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RigidbodyModels.Weapons
 {
-    public abstract class WeaponModelBase : MonoBehaviour
+    public abstract class WeaponBase : MonoBehaviour
     {
         [SerializeField] protected int damage;
         [SerializeField] protected float shootCooldown;
@@ -12,11 +12,11 @@ namespace RigidbodyModels.Weapons
         protected Timer CooldownTimer { get; private set; }
 
         protected event Action Shooting;
-        protected bool CanShoot => CooldownTimer.IsActive;
+        protected bool CanShoot => !CooldownTimer.IsActive;
 
-        public Weapon Weapon;
+        public abstract Weapon GetWeaponType();
 
-        private void Start()
+        protected virtual void Start()
         {
             Player = gameObject.GetComponent<Player.Player>();
 
@@ -27,7 +27,7 @@ namespace RigidbodyModels.Weapons
         {
             CooldownTimer.Update();
 
-            if (Player.GetCurrentWeapon() == Weapon)
+            if (Player.GetCurrentWeapon() == GetWeaponType())
             {
                 UserInputUpdate();
             }
@@ -37,6 +37,8 @@ namespace RigidbodyModels.Weapons
         {
             if (CanShoot)
             {
+                CreateBullet();
+                    
                 CooldownTimer.Start();
 
                 Shooting?.Invoke();
@@ -44,5 +46,7 @@ namespace RigidbodyModels.Weapons
         }
 
         protected abstract void UserInputUpdate();
+
+        protected abstract void CreateBullet();
     }
 }

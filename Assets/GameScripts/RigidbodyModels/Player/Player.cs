@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RigidbodyModels.Player
 {
-    public class Player : DynamicRigidbodyModelBase
+    public sealed class Player : RigidbodyModelBase
     {
         private PlayerMoveController _moveController;
         private PlayerWeaponController _weaponController;
@@ -12,12 +12,29 @@ namespace RigidbodyModels.Player
         
         public int Armor { get; private set; }
         
+        public Weapon GetCurrentWeapon()
+        {
+            return _weaponController.CurrentWeapon;
+        }
+        
+        protected override bool TryGetDirection(out Vector2 direction)
+        {
+            return _moveController.TryGetDirection(out direction);
+        }
+
         protected override void Start()
         {
             base.Start();
 
             LoadMoveController();
             LoadWeaponController();
+        }
+
+        protected override bool TryGetLayer(out GameObjectLayer layer)
+        {
+            layer = GameObjectLayer.Player;
+
+            return true;
         }
 
         private void LoadWeaponController()
@@ -42,16 +59,6 @@ namespace RigidbodyModels.Player
                 
                 LoadMoveController();
             }
-        }
-
-        protected override bool TryGetDirection(out Vector2 direction)
-        {
-            return _moveController.TryGetDirection(out direction);
-        }
-
-        public Weapon GetCurrentWeapon()
-        {
-            return _weaponController.CurrentWeapon;
         }
     }
 }

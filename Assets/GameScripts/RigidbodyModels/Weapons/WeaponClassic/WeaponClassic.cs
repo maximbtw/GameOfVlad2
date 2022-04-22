@@ -1,36 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using RigidbodyModels.Projectiles;
+using UnityEditor;
+using UnityEngine;
 
 namespace RigidbodyModels.Weapons.WeaponClassic
 {
-    public partial class WeaponClassic : WeaponModelBase
+    public partial class WeaponClassic : WeaponBase
     {
         [SerializeField] private WeaponClassicProjectile bulletPrefab;
         [SerializeField] private float bulletSpeed;
 
-        protected override void Update()
+        private void Awake()
         {
-            base.Update();
-
-            UserInputUpdate();
+            damage = 10;
+            shootCooldown = 2;
+            bulletSpeed = 7f;
+            
+            bulletPrefab =
+                AssetDatabase.LoadAssetAtPath("Assets/Prefabs/ProjectilePrefab/WeaponClassicBullet.prefab",
+                    typeof(WeaponClassicProjectile)) as WeaponClassicProjectile;
         }
 
-        protected override void Shoot()
-        {
-            if (CanShoot)
-            {
-                CreateBullet();
+        public override Weapon GetWeaponType() => Weapon.Classic;
 
-                base.Shoot();
-            }
-        }
-
-        private void CreateBullet()
+        protected override void CreateBullet()
         {
             WeaponClassicProjectile bullet = Instantiate(bulletPrefab);
 
             bullet.Initialization(
                 Player, 
-                Player.Position, 
+                Player.Position +new Vector2(0.1f,0.1f), 
                 _mousePosition,
                 bulletSpeed,
                 damage);

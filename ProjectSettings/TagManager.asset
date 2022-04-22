@@ -14,11 +14,11 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - StaticObject
+  - Player
+  - PlayerObject
+  - Mob
+  - MobObject
   - 
   - 
   - 
@@ -40,4 +40,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2997885019
+    locked: 0
+  - name: Mob
+    uniqueID: 2904688183
+    locked: 0
+  - name: PlayerObject
+    uniqueID: 1934429813
+    locked: 0
+  - name: MobObject
+    uniqueID: 3169305647
+    locked: 0
+  - name: StaticObject
+    uniqueID: 703570905
     locked: 0

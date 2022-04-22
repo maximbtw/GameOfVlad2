@@ -28,8 +28,7 @@ namespace Components
             {
                 return;
             }
-            
-            _timeLeft -= Time.fixedTime;
+            _timeLeft -= Time.deltaTime;
             
             if (_timeLeft <= 0)
             {
