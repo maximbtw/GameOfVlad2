@@ -1,6 +1,4 @@
-﻿using System;
-using RigidbodyModels.Projectiles;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace RigidbodyModels.Weapons.WeaponClassic
@@ -27,7 +25,7 @@ namespace RigidbodyModels.Weapons.WeaponClassic
         {
             WeaponClassicProjectile bullet = Instantiate(bulletPrefab);
 
-            bullet.Initialization(
+            bullet.Initialize(
                 Player, 
                 Player.Position +new Vector2(0.1f,0.1f), 
                 _mousePosition,

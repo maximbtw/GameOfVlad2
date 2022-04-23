@@ -15,10 +15,10 @@ namespace RigidbodyModels.Weapons.WeaponClassic
             SwitchToKinematic();
         }
 
-        public override void Initialization(RigidbodyModelBase parent, Vector2 startPosition, Vector2 targetPosition, float speed,
+        public override void Initialize(RigidbodyModelBase parent, Vector2 startPosition, Vector2 targetPosition, float speed,
             int damage)
         {
-            base.Initialization(parent, startPosition, targetPosition, speed, damage);
+            base.Initialize(parent, startPosition, targetPosition, speed, damage);
 
             SetDirection();
         }
@@ -39,9 +39,9 @@ namespace RigidbodyModels.Weapons.WeaponClassic
             return true;
         }
 
-        protected override void OnHitDynamicObject(object sender, CollisionEnterEventArgs e)
+        protected override void OnHitNotStaticObject(object sender, CollisionEnterEventArgs e)
         {
-            base.OnHitDynamicObject(sender, e);
+            base.OnHitNotStaticObject(sender, e);
             
             Destroy(this.gameObject);
         }

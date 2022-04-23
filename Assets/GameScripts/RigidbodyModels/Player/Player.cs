@@ -43,9 +43,7 @@ namespace RigidbodyModels.Player
 
             if (_weaponController == null)
             {
-                gameObject.AddComponent(typeof(PlayerWeaponController));
-
-                LoadWeaponController();
+                _weaponController = gameObject.AddComponent<PlayerWeaponController>();
             }
         }
 
@@ -55,9 +53,7 @@ namespace RigidbodyModels.Player
 
             if (_moveController == null)
             {
-                gameObject.AddComponent(typeof(PlayerMoveController));
-                
-                LoadMoveController();
+                _moveController = gameObject.AddComponent<PlayerMoveController>();
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEditor.Experimental.GraphView;
+using RigidbodyModels.Projectiles;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using Utils;
 
 
@@ -14,6 +13,7 @@ namespace RigidbodyModels
         [SerializeField] [Range(0.001f, 10)] protected float rotationSpeed = 5f;
 
         private Rigidbody2D _body;
+        private Collider2D _collider;
         private Vector2 _direction;
 
         public Vector2 Position => _body.position;
@@ -22,6 +22,7 @@ namespace RigidbodyModels
         protected virtual void Start()
         {
             LoadRigidbody();
+            LoadCollider();
             SetLayer();
         }
 
@@ -55,6 +56,16 @@ namespace RigidbodyModels
             _body.gravityScale = gravityScale;
         }
 
+        protected virtual void OnCollisionEnter2D(Collision2D col)
+        {
+            
+        }
+
+        public virtual void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
+        {
+            
+        }
+
         private void Update()
         {
             if (TryGetDirection(out Vector2 direction))
@@ -81,20 +92,6 @@ namespace RigidbodyModels
             return false;
         }
 
-        private void UpdateMove()
-        {
-            switch (_body.bodyType)
-            {
-                case RigidbodyType2D.Kinematic:
-                    UpdateKinematicMove();
-                    break;
-                case RigidbodyType2D.Dynamic:
-                    UpdateDynamicMove();
-                    break;
-                default: throw new Exception("This model body type can't be static");
-            }
-        }
-
         protected virtual void UpdateDynamicMove()
         {
             Vector2 force = _direction * (acceleration * Time.deltaTime);
@@ -111,23 +108,28 @@ namespace RigidbodyModels
         
         protected virtual void UpdateKinematicMove()
         {
-            var x = _direction.x * acceleration;
-            var y = _direction.y * acceleration;
-            
             Vector2 positionToChange =
-                new Vector2(x, y + _body.gravityScale);
-            
-            // Debug.Log(x);
-            // Debug.Log(y);
-            // Debug.Log(positionToChange);
-            // Debug.Log(_body.position);
-            // Debug.Log(_body.position + positionToChange);
+                new Vector2(_direction.x * acceleration, _direction.y * acceleration + _body.gravityScale);
 
             _body.MovePosition(_body.position + positionToChange);
 
             if (_body.velocity.magnitude >= maxSpeed)
             {
                 _body.velocity = _body.velocity.normalized * maxSpeed;
+            }
+        }
+        
+        private void UpdateMove()
+        {
+            switch (_body.bodyType)
+            {
+                case RigidbodyType2D.Kinematic:
+                    UpdateKinematicMove();
+                    break;
+                case RigidbodyType2D.Dynamic:
+                    UpdateDynamicMove();
+                    break;
+                default: throw new Exception("This model body type can't be static");
             }
         }
 
@@ -149,9 +151,17 @@ namespace RigidbodyModels
 
             if (_body == null)
             {
-                gameObject.AddComponent(typeof(Rigidbody2D));
+                _body = gameObject.AddComponent<Rigidbody2D>();
+            }
+        }
+        
+        private void LoadCollider()
+        {
+            _collider = gameObject.GetComponent<Collider2D>();
 
-                LoadRigidbody();
+            if (_body == null)
+            {
+                _collider = gameObject.AddComponent<PolygonCollider2D>();
             }
         }
     }

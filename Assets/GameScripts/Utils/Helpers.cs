@@ -14,5 +14,12 @@ namespace Utils
             }
             return angle;
         }
+        
+        public static float GetPercentFromMax(int maxValue, int currentValue)
+        {
+            float percent = (float)currentValue / maxValue;
+
+            return percent;
+        }
     }
 }

@@ -15,17 +15,17 @@ namespace RigidbodyModels.Projectiles
 
         protected Vector2 TargetPosition;
         
-        public event EventHandler<CollisionEnterEventArgs> CollisionWithDynamicRigidbodyModel;
+        public event EventHandler<CollisionEnterEventArgs> CollisionWithNotStaticRigidbodyModel;
         public event EventHandler<CollisionEnterEventArgs> CollisionWithStaticRigidbodyModel;
 
         protected override void Start()
         {
             base.Start();
 
-            CollisionWithDynamicRigidbodyModel += OnHitDynamicObject;
+            CollisionWithNotStaticRigidbodyModel += OnHitNotStaticObject;
         }
 
-        public virtual void Initialization(
+        public virtual void Initialize(
             RigidbodyModelBase parent, 
             Vector2 startPosition,
             Vector2 targetPosition, 
@@ -52,35 +52,42 @@ namespace RigidbodyModels.Projectiles
             _lifespanTimer.Update();
         }
 
-        protected virtual void OnHitDynamicObject(object sender, CollisionEnterEventArgs e)
+        protected virtual void OnHitNotStaticObject(object sender, CollisionEnterEventArgs e)
         {
         }
-        
-        private void OnCollisionEnter2D(Collision2D other)
+
+
+        protected override void OnCollisionEnter2D(Collision2D other)
         {
-            var collisionDynamicModel = other.gameObject.GetComponent<RigidbodyModelBase>();
+            base.OnCollisionEnter2D(other);
             
-            if (collisionDynamicModel != null)
+            var collisionModel = other.gameObject.GetComponent<RigidbodyModelBase>();
+
+            if (collisionModel == null || collisionModel == Parent)
             {
-                if (collisionDynamicModel == Parent)
-                {
-                    return;
-                }
-
-                CollisionWithDynamicRigidbodyModel?.Invoke(this, new CollisionEnterEventArgs(collisionDynamicModel));
+                return;
             }
-            
-            //TODO: Для статических моделей также
-        }
 
-        private void OnCollisionStay2D(Collision2D other)
-        {
-            //throw new NotImplementedException();
-        }
+            var eventArgs = new CollisionEnterEventArgs(collisionModel);
 
-        private void OnCollisionExit2D(Collision2D other)
-        {
-            //throw new NotImplementedException();
+            collisionModel.OnProjectileHit(this, eventArgs);
+
+            switch (collisionModel.Layer)
+            {
+                case GameObjectLayer.Static:
+                    CollisionWithStaticRigidbodyModel?.Invoke(this, eventArgs);
+                    break;
+                case GameObjectLayer.Player:
+                case GameObjectLayer.Mob:
+                    CollisionWithNotStaticRigidbodyModel?.Invoke(this, eventArgs);
+                    break;
+                case GameObjectLayer.PlayerObject:
+                    break;
+                case GameObjectLayer.MobObject:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }
