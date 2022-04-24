@@ -37,6 +37,8 @@ namespace RigidbodyModels.Mobs
         public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
         {
             _heatPoint -= sender.Damage - Armor;
+            
+            Debug.Log(_heatPoint);
 
             if (HeatPoint <= 0)
             {

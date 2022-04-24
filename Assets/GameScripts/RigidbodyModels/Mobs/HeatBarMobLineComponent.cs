@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 
@@ -10,22 +8,30 @@ namespace RigidbodyModels.Mobs
     {
         [SerializeField] private Image healBarLine;
         [SerializeField] private Image armorBarLine;
-        
+
+        private RectTransform _rectTransform;
         private MobModelBase _model;
+        private int _maxArmor;
 
         public void Initialize(MobModelBase model)
         {
             _model = model;
+            _maxArmor = model.Armor;
         }
 
         private void Start()
         {
             SetSize();
+
+            _rectTransform = GetComponent<RectTransform>();
         }
-        
+
         private void SetSize()
         {
-            transform.localScale = new Vector3(30, 20, 0);
+            float x = _model.Size.x * 100;
+            float y = _model.Size.y * 100 / 2 - 20;
+
+            transform.localScale = new Vector3(x, y, 0);
         }
 
         private void Update()
@@ -33,18 +39,32 @@ namespace RigidbodyModels.Mobs
             UpdateDrawLocation();
 
             UpdateHealBar();
+            UpdateArmorBar();
         }
 
         private void UpdateDrawLocation()
         {
-            float y = _model.Position.y - _model.transform.localScale.y / 2.5f;
-            
-            gameObject.transform.position = new Vector3(_model.Position.x, y, 0);
+            float x = _model.Size.x * 100 / 2;
+            float y = -(_model.Size.y * 100 / 2);
+
+            _rectTransform.anchoredPosition3D =new Vector3(x, y, 0);
         }
 
         private void UpdateHealBar()
         {
             healBarLine.fillAmount = Helpers.GetPercentFromMax(_model.MaxHeatPoint, _model.HeatPoint);
+        }
+
+        private void UpdateArmorBar()
+        {
+            int currentArmor = _model.Armor < 0 ? 0 : _model.Armor;
+
+            if (currentArmor > _maxArmor)
+            {
+                _maxArmor = currentArmor;
+            }
+
+            armorBarLine.fillAmount = Helpers.GetPercentFromMax(_maxArmor, currentArmor);
         }
     }
 }

@@ -14,24 +14,19 @@ namespace RigidbodyModels
 
         private Rigidbody2D _body;
         private Collider2D _collider;
+        private SpriteRenderer _spriteRenderer;
         private Vector2 _direction;
 
         public Vector2 Position => _body.position;
         public GameObjectLayer Layer =>  (GameObjectLayer)_body.gameObject.layer;
+        public Vector2 Size => _spriteRenderer.size;
 
         protected virtual void Start()
         {
             LoadRigidbody();
             LoadCollider();
+            LoadSpriteRenderer();
             SetLayer();
-        }
-
-        private void SetLayer()
-        {
-            if (TryGetLayer(out GameObjectLayer layer))
-            {
-                _body.gameObject.layer = (int)layer;
-            }
         }
 
         protected virtual bool TryGetLayer(out GameObjectLayer layer)
@@ -162,6 +157,24 @@ namespace RigidbodyModels
             if (_body == null)
             {
                 _collider = gameObject.AddComponent<PolygonCollider2D>();
+            }
+        }
+        
+        private void LoadSpriteRenderer()
+        {
+            _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
+            if (_body == null)
+            {
+                _spriteRenderer= gameObject.AddComponent<SpriteRenderer>();
+            }
+        }
+
+        private void SetLayer()
+        {
+            if (TryGetLayer(out GameObjectLayer layer))
+            {
+                _body.gameObject.layer = (int)layer;
             }
         }
     }
