@@ -11,20 +11,20 @@ namespace RigidbodyModels.Mobs
         [SerializeField] private int armor;
 
         private HeatBarMobLineComponent _heatBarComponent;
-        private int _heatPoint;
-        
+
         public int MaxHeatPoint => maxHeatPoint;
-        public int HeatPoint => _heatPoint;
+        public int HeatPoint { get; private set; }
+
         public int Armor => armor;
         public int Damage => damage;
-        
+
         //public MobModelBase Parent { get; }
 
         private void Awake()
         {
             LoadHealBarLineComponent();
-            
-            _heatPoint = maxHeatPoint;
+
+            HeatPoint = maxHeatPoint;
         }
 
         protected sealed override bool TryGetLayer(out GameObjectLayer layer)
@@ -36,14 +36,11 @@ namespace RigidbodyModels.Mobs
 
         public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
         {
-            _heatPoint -= sender.Damage - Armor;
-            
-            Debug.Log(_heatPoint);
+            HeatPoint -= sender.Damage - Armor;
 
-            if (HeatPoint <= 0)
-            {
-                OnHeatPointBecomeNegativeOrZero();
-            }
+            Debug.Log(HeatPoint);
+
+            if (HeatPoint <= 0) OnHeatPointBecomeNegativeOrZero();
         }
 
         protected virtual void OnHeatPointBecomeNegativeOrZero()
@@ -56,8 +53,8 @@ namespace RigidbodyModels.Mobs
             var heatBarComponentAsset =
                 AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Components/HealAndArmorBarComponent.prefab",
                     typeof(GameObject)) as GameObject;
-            
-            GameObject heatBarComponent = Instantiate(heatBarComponentAsset, transform, worldPositionStays: true);
+
+            var heatBarComponent = Instantiate(heatBarComponentAsset, transform, true);
 
             _heatBarComponent = heatBarComponent.GetComponent<HeatBarMobLineComponent>();
             _heatBarComponent.Initialize(this);

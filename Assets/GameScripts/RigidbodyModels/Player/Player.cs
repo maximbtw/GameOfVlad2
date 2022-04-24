@@ -1,5 +1,6 @@
 ﻿using RigidbodyModels.Weapons;
 using UnityEngine;
+using Utils;
 
 namespace RigidbodyModels.Player
 {
@@ -7,20 +8,10 @@ namespace RigidbodyModels.Player
     {
         private PlayerMoveController _moveController;
         private PlayerWeaponController _weaponController;
-        
+
         public int HeatPoint { get; private set; }
-        
+
         public int Armor { get; private set; }
-        
-        public Weapon GetCurrentWeapon()
-        {
-            return _weaponController.CurrentWeapon;
-        }
-        
-        protected override bool TryGetDirection(out Vector2 direction)
-        {
-            return _moveController.TryGetDirection(out direction);
-        }
 
         protected override void Start()
         {
@@ -28,6 +19,25 @@ namespace RigidbodyModels.Player
 
             LoadMoveController();
             LoadWeaponController();
+        }
+
+        public Weapon GetCurrentWeapon()
+        {
+            return _weaponController.CurrentWeapon;
+        }
+
+        protected override bool TryGetDirection(out Vector2 direction)
+        {
+            return _moveController.TryGetDirection(out direction);
+        }
+
+        protected override bool TryGetRotation(Vector2 direction, float rotation, out float angle)
+        {
+            angle = Helpers.GetAngleFromDirection(direction * -1);
+
+            angle = Mathf.LerpAngle(rotation, angle, rotationSpeed * Time.deltaTime);
+
+            return true;
         }
 
         protected override bool TryGetLayer(out GameObjectLayer layer)
@@ -41,20 +51,14 @@ namespace RigidbodyModels.Player
         {
             _weaponController = gameObject.GetComponent<PlayerWeaponController>();
 
-            if (_weaponController == null)
-            {
-                _weaponController = gameObject.AddComponent<PlayerWeaponController>();
-            }
+            if (_weaponController == null) _weaponController = gameObject.AddComponent<PlayerWeaponController>();
         }
 
         private void LoadMoveController()
         {
             _moveController = gameObject.GetComponent<PlayerMoveController>();
 
-            if (_moveController == null)
-            {
-                _moveController = gameObject.AddComponent<PlayerMoveController>();
-            }
+            if (_moveController == null) _moveController = gameObject.AddComponent<PlayerMoveController>();
         }
     }
 }

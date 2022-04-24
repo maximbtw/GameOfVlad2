@@ -7,17 +7,14 @@ namespace Utils
         public static float GetAngleFromDirection(Vector2 direction)
         {
             float angle = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg;
-            
-            if (angle < 0)
-            {
-                angle += 360;
-            }
+
+            if (angle < 0) angle += 360;
             return angle;
         }
-        
+
         public static float GetPercentFromMax(int maxValue, int currentValue)
         {
-            float percent = (float)currentValue / maxValue;
+            float percent = (float) currentValue / maxValue;
 
             return percent;
         }

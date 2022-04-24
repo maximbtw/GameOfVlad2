@@ -12,22 +12,25 @@ namespace RigidbodyModels.Weapons.WeaponClassic
         {
             damage = 10;
             shootCooldown = 2;
-            bulletSpeed = 7f;
-            
+            bulletSpeed = 4f;
+
             bulletPrefab =
                 AssetDatabase.LoadAssetAtPath("Assets/Prefabs/ProjectilePrefab/WeaponClassicBullet.prefab",
                     typeof(WeaponClassicProjectile)) as WeaponClassicProjectile;
         }
 
-        public override Weapon GetWeaponType() => Weapon.Classic;
+        public override Weapon GetWeaponType()
+        {
+            return Weapon.Classic;
+        }
 
         protected override void CreateBullet()
         {
-            WeaponClassicProjectile bullet = Instantiate(bulletPrefab);
+            var bullet = Instantiate(bulletPrefab);
 
             bullet.Initialize(
-                Player, 
-                Player.Position +new Vector2(0.1f,0.1f), 
+                Player,
+                Player.Position + new Vector2(0.1f, 0.1f),
                 _mousePosition,
                 bulletSpeed,
                 damage);

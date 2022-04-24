@@ -10,11 +10,7 @@ namespace RigidbodyModels.Weapons
         [SerializeField] protected float shootCooldown;
         protected Player.Player Player { get; private set; }
         protected Timer CooldownTimer { get; private set; }
-
-        protected event Action Shooting;
         protected bool CanShoot => !CooldownTimer.IsActive;
-
-        public abstract Weapon GetWeaponType();
 
         protected virtual void Start()
         {
@@ -27,18 +23,19 @@ namespace RigidbodyModels.Weapons
         {
             CooldownTimer.Update();
 
-            if (Player.GetCurrentWeapon() == GetWeaponType())
-            {
-                UserInputUpdate();
-            }
+            if (Player.GetCurrentWeapon() == GetWeaponType()) UserInputUpdate();
         }
+
+        protected event Action Shooting;
+
+        public abstract Weapon GetWeaponType();
 
         protected virtual void Shoot()
         {
             if (CanShoot)
             {
                 CreateBullet();
-                    
+
                 CooldownTimer.Start();
 
                 Shooting?.Invoke();

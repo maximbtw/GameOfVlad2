@@ -12,35 +12,35 @@ namespace RigidbodyModels.Player
         private void Update()
         {
             _needToUpdate = false;
-        
+
             if (Input.GetKey(KeyCode.W))
             {
                 _direction += new Vector2(0, DirectionSpeed);
-            
+
                 _needToUpdate = true;
             }
 
             if (Input.GetKey(KeyCode.S))
             {
                 _direction += new Vector2(0, -DirectionSpeed);
-            
+
                 _needToUpdate = true;
             }
 
             if (Input.GetKey(KeyCode.A))
             {
                 _direction += new Vector2(-DirectionSpeed, 0);
-            
+
                 _needToUpdate = true;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
                 _direction += new Vector2(DirectionSpeed, 0);
-            
+
                 _needToUpdate = true;
             }
-        
+
             _direction.Normalize();
         }
 
