@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RigidbodyModels.Player
+namespace Player.Controller
 {
     public class PlayerMoveController : MonoBehaviour
     {

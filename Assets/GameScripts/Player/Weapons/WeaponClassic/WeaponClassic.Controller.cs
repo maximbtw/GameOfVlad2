@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RigidbodyModels.Weapons.WeaponClassic
+namespace Player.Weapons.WeaponClassic
 {
     public partial class WeaponClassic
     {

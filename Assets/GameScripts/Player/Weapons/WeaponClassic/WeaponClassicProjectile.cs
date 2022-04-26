@@ -1,8 +1,9 @@
-﻿using RigidbodyModels.Projectiles;
+﻿using RigidbodyModels;
+using RigidbodyModels.Projectiles;
 using UnityEngine;
 using Utils;
 
-namespace RigidbodyModels.Weapons.WeaponClassic
+namespace Player.Weapons.WeaponClassic
 {
     public class WeaponClassicProjectile : ProjectileModelBase
     {

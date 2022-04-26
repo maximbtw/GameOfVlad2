@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RigidbodyModels.Weapons
+namespace Player.Weapons
 {
     [Serializable]
     public enum Weapon

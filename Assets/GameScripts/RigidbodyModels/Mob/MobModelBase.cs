@@ -1,8 +1,9 @@
-﻿using RigidbodyModels.Projectiles;
+﻿using Components.MobComponent;
+using RigidbodyModels.Projectiles;
 using UnityEditor;
 using UnityEngine;
 
-namespace RigidbodyModels.Mobs
+namespace RigidbodyModels.Mob
 {
     public class MobModelBase : RigidbodyModelBase
     {

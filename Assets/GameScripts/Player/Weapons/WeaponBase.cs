@@ -2,19 +2,19 @@
 using Components;
 using UnityEngine;
 
-namespace RigidbodyModels.Weapons
+namespace Player.Weapons
 {
     public abstract class WeaponBase : MonoBehaviour
     {
         [SerializeField] protected int damage;
         [SerializeField] protected float shootCooldown;
-        protected Player.Player Player { get; private set; }
+        protected RigidbodyModels.Player.Player Player { get; private set; }
         protected Timer CooldownTimer { get; private set; }
         protected bool CanShoot => !CooldownTimer.IsActive;
 
         protected virtual void Start()
         {
-            Player = gameObject.GetComponent<Player.Player>();
+            Player = gameObject.GetComponent<RigidbodyModels.Player.Player>();
 
             CooldownTimer = new Timer(shootCooldown);
         }

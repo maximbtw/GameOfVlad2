@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using RigidbodyModels.Weapons;
-using RigidbodyModels.Weapons.WeaponClassic;
+using Player.Weapons;
+using Player.Weapons.WeaponClassic;
 using UnityEngine;
 
-namespace RigidbodyModels.Player
+namespace Player.Controller
 {
     public class PlayerWeaponController : MonoBehaviour
     {

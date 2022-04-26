@@ -1,4 +1,5 @@
-﻿using RigidbodyModels.Weapons;
+﻿using Player.Controller;
+using Player.Weapons;
 using UnityEngine;
 using Utils;
 

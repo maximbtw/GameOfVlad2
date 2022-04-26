@@ -1,8 +1,8 @@
-﻿using Components;
+﻿using RigidbodyModels.Mob;
 using UnityEngine;
 using Utils;
 
-namespace RigidbodyModels.Mobs
+namespace Components.MobComponent
 {
     public class HeatBarMobLineComponent : MonoBehaviour
     {
