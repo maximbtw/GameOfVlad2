@@ -14,9 +14,10 @@ namespace Player.Weapons.WeaponClassic
             Vector2 startPosition,
             Vector2 targetPosition,
             float speed,
-            int damage)
+            int damage,
+            float knockback)
         {
-            base.Initialize(parent, startPosition, targetPosition, speed, damage);
+            base.Initialize(parent, startPosition, targetPosition, speed, damage, knockback);
 
             SetDirection();
         }

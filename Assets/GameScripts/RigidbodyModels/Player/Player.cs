@@ -52,14 +52,20 @@ namespace RigidbodyModels.Player
         {
             _weaponController = gameObject.GetComponent<PlayerWeaponController>();
 
-            if (_weaponController == null) _weaponController = gameObject.AddComponent<PlayerWeaponController>();
+            if (_weaponController == null)
+            {
+                _weaponController = gameObject.AddComponent<PlayerWeaponController>();
+            }
         }
 
         private void LoadMoveController()
         {
             _moveController = gameObject.GetComponent<PlayerMoveController>();
 
-            if (_moveController == null) _moveController = gameObject.AddComponent<PlayerMoveController>();
+            if (_moveController == null)
+            {
+                _moveController = gameObject.AddComponent<PlayerMoveController>();
+            }
         }
     }
 }

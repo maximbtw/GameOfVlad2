@@ -17,6 +17,7 @@ namespace RigidbodyModels
         public Vector2 Position => _body.position;
         public GameObjectLayer Layer => (GameObjectLayer) _body.gameObject.layer;
         public Vector2 Size => _spriteRenderer.size;
+        public Vector2 Direction => _direction;
 
         protected virtual void Start()
         {
@@ -28,7 +29,7 @@ namespace RigidbodyModels
 
         private void Update()
         {
-            if (TryGetDirection(out var direction))
+            if (TryGetDirection(out Vector2 direction))
             {
                 _direction = direction;
 
@@ -89,33 +90,48 @@ namespace RigidbodyModels
 
         private void UpdateRotation()
         {
-            if (TryGetRotation(_direction, _body.rotation, out float angle)) _body.MoveRotation(angle);
+            if (TryGetRotation(_direction, _body.rotation, out float angle))
+            {
+                _body.MoveRotation(angle);
+            }
         }
 
         private void LoadRigidbody()
         {
             _body = gameObject.GetComponent<Rigidbody2D>();
 
-            if (_body == null) _body = gameObject.AddComponent<Rigidbody2D>();
+            if (_body == null)
+            {
+                _body = gameObject.AddComponent<Rigidbody2D>();
+            }
         }
 
         private void LoadCollider()
         {
             _collider = gameObject.GetComponent<Collider2D>();
 
-            if (_body == null) _collider = gameObject.AddComponent<PolygonCollider2D>();
+            if (_body == null)
+            {
+                _collider = gameObject.AddComponent<PolygonCollider2D>();
+            }
         }
 
         private void LoadSpriteRenderer()
         {
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
-            if (_body == null) _spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+            if (_body == null)
+            {
+                _spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+            }
         }
 
         private void SetLayer()
         {
-            if (TryGetLayer(out var layer)) _body.gameObject.layer = (int) layer;
+            if (TryGetLayer(out GameObjectLayer layer))
+            {
+                _body.gameObject.layer = (int)layer;
+            }
         }
     }
 }

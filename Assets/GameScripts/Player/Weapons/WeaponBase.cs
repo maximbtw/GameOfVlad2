@@ -7,7 +7,8 @@ namespace Player.Weapons
     public abstract class WeaponBase : MonoBehaviour
     {
         [SerializeField] protected int damage;
-        [SerializeField] protected float shootCooldown;
+        [SerializeField] [Range(0,100000)] protected float shootCooldown;
+        [SerializeField] [Range(0,10000)] protected float knockback;
         protected RigidbodyModels.Player.Player Player { get; private set; }
         protected Timer CooldownTimer { get; private set; }
         protected bool CanShoot => !CooldownTimer.IsActive;

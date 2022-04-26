@@ -13,6 +13,7 @@ namespace Player.Weapons.WeaponClassic
             damage = 10;
             shootCooldown = 2;
             bulletSpeed = 4f;
+            knockback = 1;
 
             bulletPrefab =
                 AssetDatabase.LoadAssetAtPath("Assets/Prefabs/ProjectilePrefab/WeaponClassicBullet.prefab",
@@ -33,7 +34,8 @@ namespace Player.Weapons.WeaponClassic
                 Player.Position + new Vector2(0.1f, 0.1f),
                 _mousePosition,
                 bulletSpeed,
-                damage);
+                damage,
+                knockback);
         }
     }
 }

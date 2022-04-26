@@ -14,6 +14,8 @@ namespace RigidbodyModels.Projectiles
         public RigidbodyModelBase Parent { get; private set; }
 
         public int Damage { get; private set; }
+        
+        public float Knockback { get; private set; }
 
         protected override void Start()
         {
@@ -29,15 +31,14 @@ namespace RigidbodyModels.Projectiles
 
             var collisionModel = other.gameObject.GetComponent<RigidbodyModelBase>();
 
-            Debug.Log("Enter");
-
-            if (collisionModel == null || collisionModel == Parent) return;
+            if (collisionModel == null || collisionModel == Parent)
+            {
+                return;
+            }
 
             var eventArgs = new CollisionEnterEventArgs(collisionModel);
 
             collisionModel.OnProjectileHit(this, eventArgs);
-
-            Debug.Log(collisionModel.Layer);
 
             switch (collisionModel.Layer)
             {
@@ -65,13 +66,15 @@ namespace RigidbodyModels.Projectiles
             Vector2 startPosition,
             Vector2 targetPosition,
             float speed,
-            int damage)
+            int damage,
+            float knockback)
         {
             gameObject.layer = (int) GameObjectLayer.PlayerObject;
             // ReSharper disable once Unity.InefficientPropertyAccess
             gameObject.transform.position = startPosition;
             Parent = parent;
             Damage = damage;
+            Knockback = knockback;
             maxSpeed = speed;
             TargetPosition = targetPosition;
 

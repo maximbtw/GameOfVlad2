@@ -37,11 +37,26 @@ namespace RigidbodyModels.Mob
 
         public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
         {
-            HeatPoint -= sender.Damage - Armor;
+            SetDamage(sender.Damage);
+            SetKnockback(sender.Direction, sender.Knockback);
+        }
 
-            Debug.Log(HeatPoint);
+        protected virtual void SetKnockback(Vector2 direction, float knockback)
+        {
+            Vector2 knockbackForce = direction * knockback;
 
-            if (HeatPoint <= 0) OnHeatPointBecomeNegativeOrZero();
+            Debug.Log("Add force: " + knockbackForce);
+            AddForce(knockbackForce);
+        }
+
+        protected virtual void SetDamage(int takenDamage)
+        {
+            HeatPoint -= takenDamage - Armor;
+
+            if (HeatPoint <= 0)
+            {
+                OnHeatPointBecomeNegativeOrZero();
+            }
         }
 
         protected virtual void OnHeatPointBecomeNegativeOrZero()
