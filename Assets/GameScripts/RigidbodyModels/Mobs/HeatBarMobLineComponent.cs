@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Components;
+using UnityEngine;
 using Utils;
 
 namespace RigidbodyModels.Mobs
@@ -7,16 +8,30 @@ namespace RigidbodyModels.Mobs
     {
         [SerializeField] private Transform healBarLine;
         [SerializeField] private Transform armorBarLine;
+        [SerializeField] private SpriteRenderer healBarLineSpriteRenderer;
+        [SerializeField] private SpriteRenderer armorBarLineSpriteRenderer;
+        
         private int _maxArmor;
         private MobModelBase _model;
-
         private RectTransform _rectTransform;
+        private Timer _switchingColorTimer;
+
+        private static readonly Color BaseHealBarColor = new Color(8588235f, 0.1254902f, 0.1764706f);
+        private static readonly Color LowPercentHealBarColor = new Color(1, 1, 1);
+        private static readonly Color BaseArmorBarColor = new Color(0.4588235f, 0.4705882f, 0.5686275f);
+        
+        private const float PercentHealPointToShowAnimation = 0.3f;
 
         private void Start()
         {
             SetSize();
 
             _rectTransform = GetComponent<RectTransform>();
+            
+            _switchingColorTimer = new Timer(countdownTime: 0.3f);
+
+            healBarLineSpriteRenderer.color = BaseHealBarColor;
+            armorBarLineSpriteRenderer.color = BaseArmorBarColor;
         }
 
         private void Update()
@@ -48,20 +63,37 @@ namespace RigidbodyModels.Mobs
 
         private void UpdateHealBar()
         {
-            float lineX = Helpers.GetPercentFromMax(_model.MaxHeatPoint, _model.HeatPoint);
+            float percentHealPoint = Helpers.GetPercentFromMax(_model.MaxHeatPoint, _model.HeatPoint);
 
-            healBarLine.localScale = new Vector3(lineX, healBarLine.localScale.y);
+            healBarLine.localScale = new Vector3(percentHealPoint, healBarLine.localScale.y);
+
+            if (percentHealPoint <= PercentHealPointToShowAnimation)
+            {
+                if (!_switchingColorTimer.IsActive)
+                {
+                    healBarLineSpriteRenderer.color = healBarLineSpriteRenderer.color == BaseHealBarColor
+                        ? LowPercentHealBarColor
+                        : BaseHealBarColor;
+                    
+                    _switchingColorTimer.Start();
+                }
+                
+                _switchingColorTimer.Update();
+            }
         }
 
         private void UpdateArmorBar()
         {
             int currentArmor = _model.Armor < 0 ? 0 : _model.Armor;
 
-            if (currentArmor > _maxArmor) _maxArmor = currentArmor;
+            if (currentArmor > _maxArmor)
+            {
+                _maxArmor = currentArmor;
+            }
 
-            float lineX = Helpers.GetPercentFromMax(_maxArmor, currentArmor);
+            float percentArmorBar = Helpers.GetPercentFromMax(_maxArmor, currentArmor);
 
-            armorBarLine.localScale = new Vector3(lineX, armorBarLine.localScale.y);
+            armorBarLine.localScale = new Vector3(percentArmorBar, armorBarLine.localScale.y);
         }
     }
 }

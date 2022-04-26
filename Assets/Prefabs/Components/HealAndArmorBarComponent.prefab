@@ -136,6 +136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healBarLine: {fileID: 7242353431914302015}
   armorBarLine: {fileID: 720377573083305326}
+  healBarLineSpriteRenderer: {fileID: 499998680918290943}
+  armorBarLineSpriteRenderer: {fileID: 5450095437549002881}
 --- !u!1 &2754981694623747048
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,8 +209,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: e3ee33c47e1ebe24f905c16ebdc0f734, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c50922f462b5677429913b188982db2b, type: 3}
+  m_Color: {r: 0.85882354, g: 0.1254902, b: 0.1764706, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -402,8 +404,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: 6ebfe31ce0ac4f248bf0f6709788fa10, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c50922f462b5677429913b188982db2b, type: 3}
+  m_Color: {r: 0.45882353, g: 0.47058824, b: 0.5686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
