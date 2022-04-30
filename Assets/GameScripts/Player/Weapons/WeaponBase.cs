@@ -1,6 +1,7 @@
 ﻿using System;
 using Components;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Player.Weapons
 {
@@ -12,6 +13,11 @@ namespace Player.Weapons
         protected RigidbodyModels.Player.Player Player { get; private set; }
         protected Timer CooldownTimer { get; private set; }
         protected bool CanShoot => !CooldownTimer.IsActive;
+        
+        protected event Action Shooting;
+
+        
+        public abstract Weapon GetWeaponType();
 
         protected virtual void Start()
         {
@@ -24,13 +30,12 @@ namespace Player.Weapons
         {
             CooldownTimer.Update();
 
-            if (Player.GetCurrentWeapon() == GetWeaponType()) UserInputUpdate();
+            if (Player.GetCurrentWeapon() == GetWeaponType())
+            {
+                UserInputUpdate();
+            }
         }
-
-        protected event Action Shooting;
-
-        public abstract Weapon GetWeaponType();
-
+        
         protected virtual void Shoot()
         {
             if (CanShoot)

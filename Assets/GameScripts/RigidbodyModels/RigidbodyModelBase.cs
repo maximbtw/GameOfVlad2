@@ -42,6 +42,7 @@ namespace RigidbodyModels
 
         protected virtual void OnCollisionEnter2D(Collision2D col)
         {
+            Debug.Log(col.gameObject.name);
         }
 
         protected virtual bool TryGetLayer(out GameObjectLayer layer)

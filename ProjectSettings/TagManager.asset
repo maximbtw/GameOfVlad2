@@ -19,7 +19,7 @@ TagManager:
   - PlayerObject
   - Mob
   - MobObject
-  - 
+  - NotCollision
   - 
   - 
   - 

@@ -13,7 +13,6 @@ namespace Components.MobComponent
         
         private int _maxArmor;
         private MobModelBase _model;
-        private RectTransform _rectTransform;
         private Timer _switchingColorTimer;
 
         private static readonly Color BaseHealBarColor = new Color(8588235f, 0.1254902f, 0.1764706f);
@@ -26,8 +25,6 @@ namespace Components.MobComponent
         {
             SetSize();
 
-            _rectTransform = GetComponent<RectTransform>();
-            
             _switchingColorTimer = new Timer(countdownTime: 0.3f);
 
             healBarLineSpriteRenderer.color = BaseHealBarColor;
@@ -49,16 +46,22 @@ namespace Components.MobComponent
 
         private void SetSize()
         {
-            const float fixedSize = 3;
+            float y = _model.Size.y / 30f;
+            float x = _model.Size.x / 30f;
+            
+            Debug.Log(_model.Size);
 
-            transform.localScale = new Vector3(_model.Size.x * fixedSize, _model.Size.x * fixedSize, 0);
+            transform.localScale = new Vector3(x, y, 0);
         }
 
         private void UpdateDrawLocation()
         {
-            float y = -(_model.Size.y * 100 / 2);
+            float y = _model.Position.y - _model.Size.y / 2;
+            float x = _model.Position.x;
 
-            _rectTransform.anchoredPosition3D = new Vector3(0, y, 0);
+            transform.position = new Vector3(x, y, 0);
+
+            transform.rotation = Quaternion.Euler (0.0f, 0.0f, gameObject.transform.rotation.z * -1.0f);
         }
 
         private void UpdateHealBar()

@@ -23,11 +23,7 @@ namespace RigidbodyModels
         {
             if (_body.bodyType == RigidbodyType2D.Dynamic)
             {
-                Debug.Log(_body.position);
-
                 _body.AddForce(force);
-
-                Debug.Log(_body.position);
             }
             else if (_body.bodyType == RigidbodyType2D.Kinematic)
             {
