@@ -6,17 +6,51 @@ namespace RigidbodyModels.Projectiles
 {
     public class ProjectileModelBase : RigidbodyModelBase
     {
+        [Space]
         [SerializeField] private float lifespanTime = 10;
+        [SerializeField] private int damage = 1;
+        [SerializeField] private float knockback;
 
         private Timer _lifespanTimer;
 
         protected Vector2 TargetPosition;
         public RigidbodyModelBase Parent { get; private set; }
 
-        public int Damage { get; private set; }
+        public int Damage
+        {
+            get => damage;
+            private set => this.damage = value;
+        }
         
-        public float Knockback { get; private set; }
+        public float Knockback
+        {
+            get => this.knockback;
+            private set => this.knockback = value;
+        }
 
+        public event EventHandler<CollisionEnterEventArgs> CollisionWithNotStaticRigidbodyModel;
+        public event EventHandler<CollisionEnterEventArgs> CollisionWithStaticRigidbodyModel;
+
+        public virtual void Initialize(
+            RigidbodyModelBase parent,
+            Vector2 startPosition,
+            Vector2 targetPosition,
+            float? speedProjectile = null,
+            int? damageProjectile = null,
+            float? knockbackProjectile= null)
+        {
+            gameObject.transform.position = startPosition;
+            Parent = parent;
+            this.Damage = damageProjectile ?? this.Damage;
+            this.Knockback = knockbackProjectile ?? this.Knockback;
+            maxSpeed = speedProjectile ?? this.maxSpeed;
+            TargetPosition = targetPosition;
+
+            _lifespanTimer = new Timer(lifespanTime);
+            _lifespanTimer.Ended += () => Destroy(gameObject);
+            _lifespanTimer.Start();
+        }
+        
         protected override void Start()
         {
             base.Start();
@@ -24,7 +58,7 @@ namespace RigidbodyModels.Projectiles
             CollisionWithNotStaticRigidbodyModel += OnHitNotStaticObject;
             CollisionWithStaticRigidbodyModel += OnHitStaticObject;
         }
-
+        
         protected override void OnCollisionEnter2D(Collision2D other)
         {
             base.OnCollisionEnter2D(other);
@@ -56,31 +90,6 @@ namespace RigidbodyModels.Projectiles
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        public event EventHandler<CollisionEnterEventArgs> CollisionWithNotStaticRigidbodyModel;
-        public event EventHandler<CollisionEnterEventArgs> CollisionWithStaticRigidbodyModel;
-
-        public virtual void Initialize(
-            RigidbodyModelBase parent,
-            Vector2 startPosition,
-            Vector2 targetPosition,
-            float speed,
-            int damage,
-            float knockback)
-        {
-            gameObject.layer = (int) GameObjectLayer.PlayerObject;
-            // ReSharper disable once Unity.InefficientPropertyAccess
-            gameObject.transform.position = startPosition;
-            Parent = parent;
-            Damage = damage;
-            Knockback = knockback;
-            maxSpeed = speed;
-            TargetPosition = targetPosition;
-
-            _lifespanTimer = new Timer(lifespanTime);
-            _lifespanTimer.Ended += () => Destroy(gameObject);
-            _lifespanTimer.Start();
         }
 
         protected override void UpdateAdditionalData()

@@ -1,4 +1,4 @@
-﻿using RigidbodyModels.Mob;
+﻿using RigidbodyModels.MobModels;
 using UnityEngine;
 using Utils;
 

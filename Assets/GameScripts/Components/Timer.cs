@@ -8,6 +8,8 @@ namespace Components
         public readonly float CountdownTime;
         private float _timeLeft;
 
+        public float TimeLeft => _timeLeft;
+
         public Timer(float countdownTime)
         {
             CountdownTime = countdownTime;
@@ -23,12 +25,28 @@ namespace Components
             _timeLeft = CountdownTime;
         }
 
+        public void UpdateLoop()
+        {
+            Update();
+
+            if (!IsActive)
+            {
+                Start();
+            }
+        }
+
         public void Update()
         {
-            if (_timeLeft <= 0) return;
+            if (_timeLeft <= 0)
+            {
+                return;
+            }
             _timeLeft -= Time.deltaTime;
 
-            if (_timeLeft <= 0) ResetTime();
+            if (_timeLeft <= 0)
+            {
+                ResetTime();
+            }
         }
 
         public void ResetTime()

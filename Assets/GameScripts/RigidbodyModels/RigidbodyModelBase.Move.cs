@@ -5,7 +5,7 @@ namespace RigidbodyModels
 {
     public partial class RigidbodyModelBase
     {
-        protected virtual bool TryUpdateDynamicMove(Vector2 direction, out MoveOptions options)
+        protected virtual bool TryUpdateDynamicMove(Vector2 direction, Vector2 velocity, out MoveOptions options)
         {
             options = null;
 
@@ -33,7 +33,7 @@ namespace RigidbodyModels
 
         private void UpdateDynamicMove()
         {
-            if (TryUpdateDynamicMove(_direction, out MoveOptions options))
+            if (TryUpdateDynamicMove(_direction, _body.velocity, out MoveOptions options))
             {
                 options.SetDynamicOption(_body);
 

@@ -82,7 +82,7 @@ namespace RigidbodyModels
             return false;
         }
 
-        protected virtual bool TryGetRotation(Vector2 direction, float rotation, out float angle)
+        protected virtual bool TryGetAngleRotation(Vector2 direction, float rotation, out float angle)
         {
             angle = 0;
 
@@ -91,7 +91,7 @@ namespace RigidbodyModels
 
         private void UpdateRotation()
         {
-            if (TryGetRotation(_direction, _body.rotation, out float angle))
+            if (TryGetAngleRotation(_direction, _body.rotation, out float angle))
             {
                 _body.MoveRotation(angle);
             }

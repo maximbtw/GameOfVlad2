@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using RigidbodyModels.PlayerModel;
 
 namespace Extras
 {
     public class CameraMotionHandler : MonoBehaviour
     {
-        [SerializeField] private RigidbodyModels.Player.Player player;
+        [SerializeField] private Player player;
 
         private void Update()
         {
