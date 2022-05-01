@@ -25,7 +25,7 @@ namespace RigidbodyModels.MobModels.MobAngel
 
         protected override bool TryGetDirection(out Vector2 direction)
         {
-            if (CanAttackPlayer())
+            if (PlayerInVisibilityDistance())
             {
                 direction = this.TargetPosition - this.Position;
                 direction.Normalize();
@@ -49,7 +49,7 @@ namespace RigidbodyModels.MobModels.MobAngel
 
         protected override void UpdateAdditionalData()
         {
-            if (CanAttackPlayer())
+            if (PlayerInVisibilityDistance())
             {
                 _shootCooldownTimer.UpdateLoop();
             }
@@ -57,7 +57,10 @@ namespace RigidbodyModels.MobModels.MobAngel
 
         protected override bool TryUpdateDynamicMove(Vector2 direction, Vector2 velocity, out MoveOptions options)
         {
-            if (!CanMoveToTarget())
+            bool playerInTheMinimumDistance = PlayerInTheMinimumDistance();
+            bool playerInTheMaximumDistance = PlayerInVisibilityDistance();
+            
+            if (!playerInTheMinimumDistance && !playerInTheMaximumDistance)
             {
                 options = new MoveOptions
                 {
@@ -67,6 +70,11 @@ namespace RigidbodyModels.MobModels.MobAngel
             }
             else
             {
+                if (playerInTheMinimumDistance)
+                {
+                    direction *= -1;
+                }
+                
                 Vector2 force = direction * (acceleration * Time.deltaTime);
 
                 force.Normalize();
@@ -86,18 +94,18 @@ namespace RigidbodyModels.MobModels.MobAngel
                 x: Mathf.Abs(this.TargetPosition.x - this.Position.x), 
                 y: Mathf.Abs(this.TargetPosition.y - this.Position.y));
 
-        private bool CanAttackPlayer()
+        private bool PlayerInVisibilityDistance()
         {
             Vector2 distance = GetDistanceToTarget();
 
             return distance.x <= playerVisibilityDistance && distance.y <= playerVisibilityDistance;
         }
 
-        private bool CanMoveToTarget()
+        private bool PlayerInTheMinimumDistance()
         {
             Vector2 distance = GetDistanceToTarget();
 
-            return (distance.x >= minimumDistanceToMove || distance.y >= minimumDistanceToMove) && CanAttackPlayer();
+            return distance.x < minimumDistanceToMove && distance.y < minimumDistanceToMove;
         }
         
         private void Shoot()
