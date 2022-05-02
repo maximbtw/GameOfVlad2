@@ -6,6 +6,7 @@ namespace Components
     public class Timer
     {
         public readonly float CountdownTime;
+        
         private float _timeLeft;
 
         public float TimeLeft => _timeLeft;
