@@ -48,8 +48,6 @@ namespace Components.MobComponent
         {
             float y = _model.Size.y / 30f;
             float x = _model.Size.x / 30f;
-            
-            Debug.Log(_model.Size);
 
             transform.localScale = new Vector3(x, y, 0);
         }

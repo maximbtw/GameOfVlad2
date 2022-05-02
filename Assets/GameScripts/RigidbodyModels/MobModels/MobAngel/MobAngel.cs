@@ -1,4 +1,5 @@
-﻿using Components;
+﻿using System;
+using Components;
 using UnityEngine;
 using Utils;
 
@@ -14,6 +15,8 @@ namespace RigidbodyModels.MobModels.MobAngel
         [SerializeField] private MobAngelProjectile bulletPrefab;
 
         private Timer _shootCooldownTimer;
+
+        public event Action WasShot;
 
         protected override void Start()
         {
@@ -110,6 +113,8 @@ namespace RigidbodyModels.MobModels.MobAngel
         
         private void Shoot()
         {
+            WasShot?.Invoke();
+            
             MobAngelProjectile bullet = Instantiate(bulletPrefab);
 
             bullet.Initialize(parent: this, startPosition: this.Position, this.TargetPosition);

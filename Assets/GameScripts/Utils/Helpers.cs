@@ -8,7 +8,11 @@ namespace Utils
         {
             float angle = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg;
 
-            if (angle < 0) angle += 360;
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+
             return angle;
         }
 

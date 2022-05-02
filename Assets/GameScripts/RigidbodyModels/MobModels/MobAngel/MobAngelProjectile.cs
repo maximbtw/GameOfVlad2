@@ -72,8 +72,6 @@ namespace RigidbodyModels.MobModels.MobAngel
             _fixedDirection = TargetPosition - currentPosition;
 
             _fixedDirection.Normalize();
-
-            Debug.Log(_fixedDirection);
         }
     }
 }
