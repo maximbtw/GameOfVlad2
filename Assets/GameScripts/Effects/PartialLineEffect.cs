@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -75,6 +76,7 @@ namespace Effects
 
             itemTransform.position = _transform.position;
             itemTransform.localScale = new Vector3(scale, scale);
+            itemTransform.SetParent(EffectContainer.Instance.transform);
 
             itemBody.LifeSpanTimeEnded += () => _countItems--;
 

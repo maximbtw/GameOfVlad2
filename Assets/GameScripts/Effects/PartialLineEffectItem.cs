@@ -1,5 +1,6 @@
 ﻿using System;
 using Components;
+using Shared;
 using UnityEngine;
 
 namespace Effects
@@ -8,7 +9,7 @@ namespace Effects
     {
         private float _rotationSpeed;
         private Timer _lifeSpanTimer;
-        private SpriteRenderer _spriteRenderer;
+        private TransparencySpriteController _transparencyController;
         private Vector2 _direction;
 
         public event Action LifeSpanTimeEnded;
@@ -19,10 +20,10 @@ namespace Effects
             Vector2 direction,
             float lifeSpanTime)
         {
-            _spriteRenderer = spriteRenderer;
             _rotationSpeed = rotationSpeed;
             _direction = direction;
             _lifeSpanTimer = new Timer(lifeSpanTime);
+            _transparencyController = new TransparencySpriteController(spriteRenderer, _lifeSpanTimer);
 
             _lifeSpanTimer.Ended += LifeHasEnded;
             _lifeSpanTimer.Start();
@@ -36,18 +37,9 @@ namespace Effects
             }
             
             _lifeSpanTimer.Update();
+            _transparencyController.Update();
             
-            UpdateTransparency();
             UpdateTransform();
-        }
-
-        private void UpdateTransparency()
-        {
-            Color currentColor = _spriteRenderer.color;
-
-            float transparency = _lifeSpanTimer.TimeLeft / _lifeSpanTimer.CountdownTime;
-
-            _spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, transparency);
         }
 
         private void UpdateTransform()
