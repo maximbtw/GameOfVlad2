@@ -15,8 +15,12 @@ namespace RigidbodyModels.MobModels.MobAngel
         [SerializeField] private MobAngelProjectile bulletPrefab;
 
         private Timer _shootCooldownTimer;
+        
+        private AttackState _currentState = AttackState.Stay;
+        private AttackState _previousState;
 
         public event Action WasShot;
+        public event Action PlayerEnterInVisibilityDistance;
 
         protected override void Start()
         {
@@ -52,10 +56,14 @@ namespace RigidbodyModels.MobModels.MobAngel
 
         protected override void UpdateAdditionalData()
         {
-            if (PlayerInVisibilityDistance())
+            bool playerInVisibilityDistance = PlayerInVisibilityDistance();
+            
+            if (playerInVisibilityDistance)
             {
                 _shootCooldownTimer.UpdateLoop();
             }
+
+            UpdateState(playerInVisibilityDistance);
         }
 
         protected override bool TryUpdateDynamicMove(Vector2 direction, Vector2 velocity, out MoveOptions options)
@@ -92,6 +100,17 @@ namespace RigidbodyModels.MobModels.MobAngel
             return true;
         }
         
+        private void UpdateState(bool playerInVisibilityDistance)
+        {
+            _previousState = _currentState;
+            _currentState = playerInVisibilityDistance ? AttackState.Attack : AttackState.Stay;
+
+            if (_previousState == AttackState.Stay && _currentState == AttackState.Attack)
+            {
+                PlayerEnterInVisibilityDistance?.Invoke();
+            }
+        }
+        
         private Vector2 GetDistanceToTarget() =>
             new Vector2(
                 x: Mathf.Abs(this.TargetPosition.x - this.Position.x), 
@@ -118,6 +137,12 @@ namespace RigidbodyModels.MobModels.MobAngel
             MobAngelProjectile bullet = Instantiate(bulletPrefab);
 
             bullet.Initialize(parent: this, startPosition: this.Position, this.TargetPosition);
+        }
+
+        private enum AttackState
+        {
+            Attack,
+            Stay
         }
     }
 }

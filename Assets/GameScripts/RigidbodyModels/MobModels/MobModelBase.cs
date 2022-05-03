@@ -1,4 +1,5 @@
-﻿using Components.MobComponent;
+﻿using System;
+using Components.MobComponent;
 using RigidbodyModels.PlayerModel;
 using RigidbodyModels.Projectiles;
 using UnityEditor;
@@ -25,6 +26,9 @@ namespace RigidbodyModels.MobModels
         public int Damage => damage;
 
         //public MobModelBase Parent { get; }
+        
+        public event EventHandler<MobTakeDamageEventArgs> TakeDamage;
+        public event EventHandler<MobDestroyedEventArgs> Destroyed;
 
         private void Awake()
         {
@@ -45,6 +49,8 @@ namespace RigidbodyModels.MobModels
 
         public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
         {
+            TakeDamage?.Invoke(sender: this,new MobTakeDamageEventArgs(sender));
+            
             SetDamage(sender.Damage);
             SetKnockback(sender.Direction, sender.Knockback);
         }
@@ -68,6 +74,8 @@ namespace RigidbodyModels.MobModels
 
         protected virtual void OnHeatPointBecomeNegativeOrZero()
         {
+            Destroyed?.Invoke(sender: this, e:new MobDestroyedEventArgs());
+            
             Destroy(gameObject);
         }
 
