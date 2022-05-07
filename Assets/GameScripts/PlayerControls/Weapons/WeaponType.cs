@@ -3,7 +3,7 @@
 namespace PlayerControls.Weapons
 {
     [Serializable]
-    public enum Weapon
+    public enum WeaponType
     {
         None,
 

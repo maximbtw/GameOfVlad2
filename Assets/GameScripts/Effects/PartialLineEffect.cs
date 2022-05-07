@@ -57,6 +57,11 @@ namespace Effects
             float scale = Random.Range(minimumScale, maximumScale);
             float lifeSpan = Random.Range(minimumLifeSpanInSecond, maximumLifeSpanInSecond);
             float speedRotation = Random.Range(minimumSpeedRotation, maximumSpeedRotation);
+
+            if (_countItems % 2 == 0)
+            {
+                speedRotation *= -1;
+            }
             
             var forceDirection = new Vector2(
                 x: Random.Range(-NormalizeDispersion, NormalizeDispersion),

@@ -3,26 +3,22 @@ using UnityEngine;
 
 namespace PlayerControls.Weapons.WeaponClassic
 {
-    public partial class WeaponClassic : WeaponBase
+    public class WeaponClassic : WeaponBase
     {
         [SerializeField] private WeaponClassicProjectile bulletPrefab;
-        [SerializeField] private float bulletSpeed;
+        //[SerializeField] private float bulletSpeed;
+        
+        public override WeaponType GetWeaponType() => WeaponType.Classic;
 
         private void Awake()
         {
-            damage = 10;
-            shootCooldown = 2;
-            bulletSpeed = 4f;
-            knockback = 1;
-
             bulletPrefab =
-                AssetDatabase.LoadAssetAtPath("Assets/Prefabs/ProjectilePrefab/WeaponClassicBullet.prefab",
+                AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Player/Weapon/Classic/WeaponClassicBullet.prefab",
                     typeof(WeaponClassicProjectile)) as WeaponClassicProjectile;
-        }
+            
+            Controller = gameObject.AddComponent<WeaponClassicController>();
 
-        public override Weapon GetWeaponType()
-        {
-            return Weapon.Classic;
+            Controller.Shoot += Shoot;
         }
 
         protected override void CreateBullet()
@@ -31,9 +27,9 @@ namespace PlayerControls.Weapons.WeaponClassic
 
             bullet.Initialize(
                 Player,
-                Player.Position + new Vector2(0.1f, 0.1f),
-                _mousePosition,
-                bulletSpeed,
+                startPosition: Player.Position,
+                targetPosition: Controller.GetMousePosition(),
+                speedProjectile: null,
                 damage,
                 knockback);
         }

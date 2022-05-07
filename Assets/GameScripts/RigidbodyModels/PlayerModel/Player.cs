@@ -15,9 +15,9 @@ namespace RigidbodyModels.PlayerModel
 
         public int Armor { get; private set; }
 
-        public Weapon GetCurrentWeapon()
+        public WeaponType GetCurrentWeapon()
         {
-            return _weaponController.CurrentWeapon;
+            return _weaponController.CurrentWeaponType;
         }
         
         public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)

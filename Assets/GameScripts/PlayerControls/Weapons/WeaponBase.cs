@@ -1,5 +1,6 @@
 ﻿using System;
 using Components;
+using PlayerControls.Weapons.WeaponClassic;
 using RigidbodyModels.PlayerModel;
 using UnityEngine;
 
@@ -10,13 +11,41 @@ namespace PlayerControls.Weapons
         [SerializeField] protected int damage;
         [SerializeField] [Range(0,100000)] protected float shootCooldown;
         [SerializeField] [Range(0,10000)] protected float knockback;
+        
+        protected WeaponClassicController Controller;
+        
         protected Player Player { get; private set; }
         protected Timer CooldownTimer { get; private set; }
         protected bool CanShoot => !CooldownTimer.IsActive;
         
         protected event Action Shooting;
         
-        public abstract Weapon GetWeaponType();
+        public abstract WeaponType GetWeaponType();
+
+        public virtual void Select()
+        {
+            Controller.enabled = true;
+        }
+
+        public virtual void Unselect()
+        {
+            Controller.enabled = false;
+        }
+
+        public void UpdateProperties(int weaponDamage, float weaponShootCooldown, float weaponKnockback)
+        {
+            this.damage = weaponDamage;
+            this.shootCooldown = weaponShootCooldown;
+            this.knockback = weaponKnockback;
+
+            bool updateTimer = CooldownTimer != null &&
+                               Math.Abs(this.shootCooldown - CooldownTimer.CountdownTime) > 0.001f;
+
+            if (updateTimer)
+            {
+                CooldownTimer = new Timer(this.shootCooldown);
+            }
+        }
 
         protected virtual void Start()
         {
@@ -28,13 +57,8 @@ namespace PlayerControls.Weapons
         protected virtual void Update()
         {
             CooldownTimer.Update();
-
-            if (Player.GetCurrentWeapon() == GetWeaponType())
-            {
-                UserInputUpdate();
-            }
         }
-        
+
         protected virtual void Shoot()
         {
             if (CanShoot)
@@ -46,8 +70,6 @@ namespace PlayerControls.Weapons
                 Shooting?.Invoke();
             }
         }
-
-        protected abstract void UserInputUpdate();
 
         protected abstract void CreateBullet();
     }

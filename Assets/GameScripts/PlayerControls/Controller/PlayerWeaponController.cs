@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using PlayerControls.Weapons;
-using PlayerControls.Weapons.WeaponClassic;
 using UnityEngine;
 
 namespace PlayerControls.Controller
 {
     public class PlayerWeaponController : MonoBehaviour
     {
-        // TODO: Временный хак, пока не знаю как реализовать
-        private readonly Dictionary<Weapon, Type> _weaponTypeByWeaponIndex = new Dictionary<Weapon, Type>
-        {
-            {Weapon.Classic, typeof(WeaponClassic)}
-        };
-
-        private Dictionary<Weapon, WeaponBase> _availableWeapons;
+        private Dictionary<WeaponType, WeaponBase> _availableWeapons = new Dictionary<WeaponType, WeaponBase>();
         private int MaxAvailableWeaponIndex => _availableWeapons.Count - 1;
 
-        public Weapon CurrentWeapon { get; private set; }
+        public WeaponType CurrentWeaponType { get; private set; }
 
         private void Start()
         {
-            LoadAvailableWeapon();
+            LoadAvailableWeapons();
         }
 
         private void Update()
@@ -29,41 +21,57 @@ namespace PlayerControls.Controller
             UpdateWeaponSwitch();
         }
 
-        public void AddWeapon(Weapon weapon)
+        public void AddWeapon(WeaponType weaponType)
         {
-            if (!_availableWeapons.ContainsKey(weapon))
+            if (_availableWeapons.ContainsKey(weaponType))
             {
-                var weaponType = _weaponTypeByWeaponIndex[weapon];
-
-                _availableWeapons.Add(weapon, (WeaponBase) gameObject.AddComponent(weaponType));
+                return;
             }
+
+            WeaponContainer.WeaponComponent weaponComponent = WeaponContainer.Instance.GetWeaponByType(weaponType);
+
+            var weapon = (WeaponBase) this.gameObject.AddComponent(weaponComponent.Weapon);
+
+            weapon.UpdateProperties(
+                weaponComponent.damage,
+                weaponComponent.shootCooldown,
+                weaponComponent.knockback);
+
+            _availableWeapons.Add(weaponType, weapon);
+            
+            weapon.Unselect();
+            
+            Debug.Log("Add weapon: " + weaponType);
         }
 
-        public void RemoveWeapon(Weapon weapon)
+        public void RemoveWeapon(WeaponType weaponType)
         {
-            if (weapon == Weapon.None)
+            if (weaponType == WeaponType.None)
             {
                 Debug.LogError("Нельзя удалить тип оружия по умолчанию");
 
                 return;
             }
 
-            if (_availableWeapons.ContainsKey(weapon))
+            if (_availableWeapons.ContainsKey(weaponType))
             {
-                if (CurrentWeapon == weapon) UpdateCurrentWeapon((int) CurrentWeapon - 1);
+                if (CurrentWeaponType == weaponType)
+                {
+                    UpdateCurrentWeapon((int) CurrentWeaponType - 1);
+                }
 
-                _availableWeapons.Remove(weapon);
+                _availableWeapons.Remove(weaponType);
             }
         }
 
-        private void LoadAvailableWeapon()
+        private void LoadAvailableWeapons()
         {
-            _availableWeapons = new Dictionary<Weapon, WeaponBase>
+            _availableWeapons = new Dictionary<WeaponType, WeaponBase>
             {
-                {Weapon.None, null}
+                {WeaponType.None, null}
             };
 
-            AddWeapon(Weapon.Classic);
+            AddWeapon(WeaponType.Classic);
 
 
             // TODO: Загружем доступные оружия);
@@ -73,22 +81,51 @@ namespace PlayerControls.Controller
         {
             int userInput = HandleUserInput();
 
-            if (userInput == 0) return;
+            if (userInput == 0)
+            {
+                return;
+            }
 
-            int nextWeaponIndex = (int) CurrentWeapon + userInput;
+            int newWeaponIndex = (int) CurrentWeaponType + userInput;
+            
+            if (newWeaponIndex > MaxAvailableWeaponIndex)
+            {
+                newWeaponIndex = 0;
+            }
 
-            UpdateCurrentWeapon(nextWeaponIndex);
+            if (newWeaponIndex < 0)
+            {
+                newWeaponIndex = MaxAvailableWeaponIndex;
+            }
+
+            UpdateCurrentWeapon(newWeaponIndex);
         }
 
         private void UpdateCurrentWeapon(int newWeaponIndex)
         {
-            if (newWeaponIndex > MaxAvailableWeaponIndex) newWeaponIndex = 0;
+            WeaponBase previousWeapon = _availableWeapons[CurrentWeaponType];
 
-            if (newWeaponIndex < 0) newWeaponIndex = MaxAvailableWeaponIndex;
+            // ReSharper disable once Unity.NoNullPropagation
+            previousWeapon?.Unselect();
 
-            CurrentWeapon = (Weapon) newWeaponIndex;
+            CurrentWeaponType = (WeaponType) newWeaponIndex;
 
-            Debug.Log("Weapon switch to " + CurrentWeapon);
+            WeaponBase currentWeapon = _availableWeapons[CurrentWeaponType];
+            
+            if (currentWeapon != null)
+            {
+                WeaponContainer.WeaponComponent weaponComponent =
+                    WeaponContainer.Instance.GetWeaponByType(CurrentWeaponType);
+                
+                currentWeapon.UpdateProperties(
+                    weaponComponent.damage,
+                    weaponComponent.shootCooldown,
+                    weaponComponent.knockback);
+                
+                currentWeapon.Select();
+            }
+
+            Debug.Log("Weapon switch to " + CurrentWeaponType);
         }
 
         private static int HandleUserInput()
@@ -96,7 +133,10 @@ namespace PlayerControls.Controller
             // Так как scrollAxis может быть только -0.1 или 0.1 поэтому умножаем на 10
             var scrollAxis = (int) (Input.GetAxis("Mouse ScrollWheel") * 10);
 
-            if (Input.GetKey(KeyCode.Q)) scrollAxis = 1;
+            if (Input.GetKey(KeyCode.Q))
+            {
+                scrollAxis = 1;
+            }
 
             return scrollAxis;
         }

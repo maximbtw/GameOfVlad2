@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4529352050768539010}
   - component: {fileID: 4111851117451377289}
   - component: {fileID: 3254045146938706440}
+  - component: {fileID: 3332349981070206483}
   m_Layer: 0
   m_Name: WeaponClassicBullet
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6455620551255084526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.486, y: 0.104, z: -0.6882843}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3063d0391472599418963531213fa90e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a032280eaa187a64b8419aef6a7b63f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,6 +102,8 @@ MonoBehaviour:
   maxSpeed: 4
   rotationSpeed: 3
   lifespanTime: 30
+  damage: 1
+  knockback: 0
 --- !u!50 &4111851117451377289
 Rigidbody2D:
   serializedVersion: 4
@@ -139,7 +142,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.24, y: 0.12}
+    oldSize: {x: 1.27, y: 1.23}
     newSize: {x: 0.24, y: 0.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -153,3 +156,30 @@ PolygonCollider2D:
       - {x: -0.089999996, y: -0.06}
       - {x: 0.12, y: -0.06}
       - {x: 0.12, y: 0.06}
+--- !u!114 &3332349981070206483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455620551255084526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1880d0d8baf04202af2377478a5c5804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: d96a6d2e926671b428a7a3d6e167b63b, type: 3}
+  - {fileID: 21300000, guid: ea5b33d44c66f2e4e94623da0429be57, type: 3}
+  - {fileID: 21300000, guid: 6043ea8df395bac4c8c5efe04b28d1dc, type: 3}
+  gradients:
+  - firstColor: {r: 0.9056604, g: 0.43915984, b: 0.43915984, a: 1}
+    secondColor: {r: 1, g: 0, b: 0.17757034, a: 1}
+  frequency: 1
+  dispersion: 0.5
+  minimumSpeedRotation: 0
+  maximumSpeedRotation: 5
+  minimumLifeSpanInSecond: 0.01
+  maximumLifeSpanInSecond: 0.35
+  minimumScale: 0.05
+  maximumScale: 0.1
