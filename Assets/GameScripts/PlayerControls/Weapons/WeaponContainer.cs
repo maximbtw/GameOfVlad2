@@ -13,7 +13,8 @@ namespace PlayerControls.Weapons
 
         private static readonly Dictionary<WeaponType, Type> WeaponsCash = new Dictionary<WeaponType, Type>
         {
-            {WeaponType.Classic, typeof(WeaponClassic.WeaponClassic)}
+            {WeaponType.Classic, typeof(WeaponClassic.WeaponClassic)},
+            {WeaponType.Dart, typeof(WeaponDart.WeaponDart)}
         };
 
         private void Awake()

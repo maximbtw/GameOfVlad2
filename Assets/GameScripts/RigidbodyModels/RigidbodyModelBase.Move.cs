@@ -45,11 +45,6 @@ namespace RigidbodyModels
             force.Normalize();
 
             _body.AddForce(force);
-
-            if (_body.velocity.magnitude >= maxSpeed)
-            {
-                _body.velocity = _body.velocity.normalized * maxSpeed;
-            }
         }
 
         private void UpdateKinematicMove()
@@ -65,11 +60,6 @@ namespace RigidbodyModels
                 new Vector2(_direction.x * acceleration, _direction.y * acceleration + _body.gravityScale);
 
             _body.MovePosition(_body.position + positionToChange);
-
-            if (_body.velocity.magnitude >= maxSpeed)
-            {
-                _body.velocity = _body.velocity.normalized * maxSpeed;
-            }
         }
 
         private void UpdateMove()
@@ -83,6 +73,19 @@ namespace RigidbodyModels
                     UpdateDynamicMove();
                     break;
                 default: throw new Exception("This model body type can't be static");
+            }
+        }
+
+        private void UpdateMaxVelocity()
+        {
+            if (_body.bodyType == RigidbodyType2D.Static)
+            {
+                return;
+            }
+            
+            if (_body.velocity.magnitude >= maxSpeed)
+            {
+                _body.velocity = _body.velocity.normalized * maxSpeed;
             }
         }
 

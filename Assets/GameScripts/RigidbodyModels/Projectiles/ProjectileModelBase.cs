@@ -14,7 +14,8 @@ namespace RigidbodyModels.Projectiles
         private Timer _lifespanTimer;
 
         protected Vector2 TargetPosition;
-        public RigidbodyModelBase Parent { get; private set; }
+        
+        private RigidbodyModelBase _parent;
 
         public int Damage
         {
@@ -32,6 +33,7 @@ namespace RigidbodyModels.Projectiles
         public event EventHandler<CollisionEnterEventArgs> CollisionWithStaticRigidbodyModel;
 
         public virtual void Initialize(
+            GameObjectLayer layer,
             RigidbodyModelBase parent,
             Vector2 startPosition,
             Vector2 targetPosition,
@@ -39,8 +41,9 @@ namespace RigidbodyModels.Projectiles
             int? damageProjectile = null,
             float? knockbackProjectile= null)
         {
+            gameObject.layer = (int) layer;
             gameObject.transform.position = startPosition;
-            Parent = parent;
+            _parent = parent;
             this.Damage = damageProjectile ?? this.Damage;
             this.Knockback = knockbackProjectile ?? this.Knockback;
             maxSpeed = speedProjectile ?? this.maxSpeed;
@@ -65,7 +68,7 @@ namespace RigidbodyModels.Projectiles
 
             var collisionModel = other.gameObject.GetComponent<RigidbodyModelBase>();
 
-            if (collisionModel == null || collisionModel == Parent)
+            if (collisionModel == null || collisionModel == _parent)
             {
                 return;
             }

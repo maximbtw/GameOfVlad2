@@ -39,9 +39,9 @@ namespace RigidbodyModels.PlayerModel
             return _moveController.TryGetDirection(out direction);
         }
 
-        protected override bool TryGetAngleRotation(Vector2 direction, float rotation, out float angle)
+        protected override bool TryGetAngleRotation(float rotation, out float angle)
         {
-            angle = Helpers.GetAngleFromDirection(direction * -1);
+            angle = Helpers.GetAngleFromDirection(this.Direction * -1);
 
             angle = Mathf.LerpAngle(rotation, angle, rotationSpeed * Time.deltaTime);
 

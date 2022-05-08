@@ -1,6 +1,5 @@
 ﻿using System;
 using Components;
-using PlayerControls.Weapons.WeaponClassic;
 using RigidbodyModels.PlayerModel;
 using UnityEngine;
 
@@ -12,11 +11,11 @@ namespace PlayerControls.Weapons
         [SerializeField] [Range(0,100000)] protected float shootCooldown;
         [SerializeField] [Range(0,10000)] protected float knockback;
         
-        protected WeaponClassicController Controller;
+        protected WeaponControllerBase Controller;
         
         protected Player Player { get; private set; }
-        protected Timer CooldownTimer { get; private set; }
-        protected bool CanShoot => !CooldownTimer.IsActive;
+        private Timer CooldownTimer { get; set; }
+        private bool CanShoot => !CooldownTimer.IsActive;
         
         protected event Action Shooting;
         

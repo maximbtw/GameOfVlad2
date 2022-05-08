@@ -1,6 +1,6 @@
-﻿namespace PlayerControls.Weapons.WeaponClassic
+﻿namespace PlayerControls.Weapons.WeaponDart
 {
-    public class WeaponClassicController : WeaponControllerBase
+    public class WeaponDartController : WeaponControllerBase
     {
         protected override void UserInputUpdate()
         {

@@ -5,6 +5,8 @@ namespace PlayerControls.Weapons
 {
     public abstract class WeaponControllerBase : MonoBehaviour
     {
+        public event Action Shoot;
+        
         protected bool LeftMousePressedHeld;
         
         private Camera _camera;
@@ -15,6 +17,11 @@ namespace PlayerControls.Weapons
         public Vector2 GetMousePosition() => _camera.ScreenToWorldPoint(Input.mousePosition);
 
         protected abstract void UserInputUpdate();
+
+        protected void OnShoot()
+        {
+            Shoot?.Invoke();
+        }
         
         private void Start()
         {

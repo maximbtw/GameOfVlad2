@@ -6,7 +6,7 @@ namespace RigidbodyModels
     public partial class RigidbodyModelBase : MonoBehaviour
     {
         [SerializeField] [Range(0.001f, 10)] protected float acceleration = 0.01f;
-        [SerializeField] [Range(0, 10)] protected float maxSpeed = 2.5f;
+        [SerializeField] [Range(0, 50)] protected float maxSpeed = 2.5f;
         [SerializeField] [Range(0.001f, 10)] protected float rotationSpeed = 5f;
 
         private Rigidbody2D _body;
@@ -18,6 +18,7 @@ namespace RigidbodyModels
         public GameObjectLayer Layer => (GameObjectLayer) _body.gameObject.layer;
         public Vector2 Size => _spriteRenderer.size;
         public Vector2 Direction => _direction;
+        public Vector2 CalculateDirection => _body.velocity.normalized;
 
         protected virtual void Start()
         {
@@ -25,6 +26,12 @@ namespace RigidbodyModels
             LoadCollider();
             LoadSpriteRenderer();
             SetLayer();
+            
+            LateStart();
+        }
+
+        protected virtual void LateStart()
+        {
         }
 
         private void Update()
@@ -36,6 +43,7 @@ namespace RigidbodyModels
                 UpdateMove();
             }
 
+            UpdateMaxVelocity();
             UpdateRotation();
             UpdateAdditionalData();
         }
@@ -82,7 +90,7 @@ namespace RigidbodyModels
             return false;
         }
 
-        protected virtual bool TryGetAngleRotation(Vector2 direction, float rotation, out float angle)
+        protected virtual bool TryGetAngleRotation(float rotation, out float angle)
         {
             angle = 0;
 
@@ -91,7 +99,7 @@ namespace RigidbodyModels
 
         private void UpdateRotation()
         {
-            if (TryGetAngleRotation(_direction, _body.rotation, out float angle))
+            if (TryGetAngleRotation(_body.rotation, out float angle))
             {
                 _body.MoveRotation(angle);
             }

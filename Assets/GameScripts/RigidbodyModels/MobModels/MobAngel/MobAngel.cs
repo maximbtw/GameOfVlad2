@@ -45,9 +45,9 @@ namespace RigidbodyModels.MobModels.MobAngel
             return true;
         }
 
-        protected override bool TryGetAngleRotation(Vector2 direction, float rotation, out float angle)
+        protected override bool TryGetAngleRotation(float rotation, out float angle)
         {
-            angle = Helpers.GetAngleFromDirection(direction);
+            angle = Helpers.GetAngleFromDirection(this.Direction);
 
             angle -= 180;
 
@@ -136,7 +136,11 @@ namespace RigidbodyModels.MobModels.MobAngel
             
             MobAngelProjectile bullet = Instantiate(bulletPrefab);
 
-            bullet.Initialize(parent: this, startPosition: this.Position, this.TargetPosition);
+            bullet.Initialize(
+                GameObjectLayer.MobObject, 
+                parent: this, 
+                startPosition: this.Position,
+                this.TargetPosition);
         }
 
         private enum AttackState

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using RigidbodyModels;
+using UnityEditor;
 using UnityEngine;
 
 namespace PlayerControls.Weapons.WeaponClassic
@@ -6,8 +7,7 @@ namespace PlayerControls.Weapons.WeaponClassic
     public class WeaponClassic : WeaponBase
     {
         [SerializeField] private WeaponClassicProjectile bulletPrefab;
-        //[SerializeField] private float bulletSpeed;
-        
+
         public override WeaponType GetWeaponType() => WeaponType.Classic;
 
         private void Awake()
@@ -26,6 +26,7 @@ namespace PlayerControls.Weapons.WeaponClassic
             WeaponClassicProjectile bullet = Instantiate(bulletPrefab);
 
             bullet.Initialize(
+                GameObjectLayer.PlayerObject,
                 Player,
                 startPosition: Player.Position,
                 targetPosition: Controller.GetMousePosition(),

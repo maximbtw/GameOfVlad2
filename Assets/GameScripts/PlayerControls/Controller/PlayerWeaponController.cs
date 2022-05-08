@@ -40,8 +40,6 @@ namespace PlayerControls.Controller
             _availableWeapons.Add(weaponType, weapon);
             
             weapon.Unselect();
-            
-            Debug.Log("Add weapon: " + weaponType);
         }
 
         public void RemoveWeapon(WeaponType weaponType)
@@ -72,6 +70,7 @@ namespace PlayerControls.Controller
             };
 
             AddWeapon(WeaponType.Classic);
+            AddWeapon(WeaponType.Dart);
 
 
             // TODO: Загружем доступные оружия);

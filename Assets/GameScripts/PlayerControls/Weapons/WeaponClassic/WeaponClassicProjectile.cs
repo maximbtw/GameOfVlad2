@@ -10,6 +10,7 @@ namespace PlayerControls.Weapons.WeaponClassic
         private Vector2 _fixedDirection;
 
         public override void Initialize(
+            GameObjectLayer layer,
             RigidbodyModelBase parent,
             Vector2 startPosition,
             Vector2 targetPosition,
@@ -18,13 +19,13 @@ namespace PlayerControls.Weapons.WeaponClassic
             float? knockbackProjectile = null)
         {
             base.Initialize(
+                layer,
                 parent, 
-                startPosition, targetPosition,
+                startPosition, 
+                targetPosition,
                 speedProjectile, 
                 damageProjectile,
                 knockbackProjectile);
-            
-            gameObject.layer = (int) GameObjectLayer.PlayerObject;
 
             SetDirection();
         }
@@ -46,9 +47,9 @@ namespace PlayerControls.Weapons.WeaponClassic
             return true;
         }
 
-        protected override bool TryGetAngleRotation(Vector2 direction, float rotation, out float angle)
+        protected override bool TryGetAngleRotation(float rotation, out float angle)
         {
-            angle = Helpers.GetAngleFromDirection(direction);
+            angle = Helpers.GetAngleFromDirection(this.Direction);
 
             angle -= 90;
 

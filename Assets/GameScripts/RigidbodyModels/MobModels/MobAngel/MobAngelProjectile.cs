@@ -9,6 +9,7 @@ namespace RigidbodyModels.MobModels.MobAngel
         private Vector2 _fixedDirection;
         
         public override void Initialize(
+            GameObjectLayer layer,
             RigidbodyModelBase parent, 
             Vector2 startPosition, 
             Vector2 targetPosition, 
@@ -17,6 +18,7 @@ namespace RigidbodyModels.MobModels.MobAngel
             float? knockbackProjectile= null)
         {
             base.Initialize(
+                layer,
                 parent, 
                 startPosition, 
                 targetPosition, 
@@ -46,9 +48,9 @@ namespace RigidbodyModels.MobModels.MobAngel
             return true;
         }
         
-        protected override bool TryGetAngleRotation(Vector2 direction, float rotation, out float angle)
+        protected override bool TryGetAngleRotation(float rotation, out float angle)
         {
-            angle = Helpers.GetAngleFromDirection(direction);
+            angle = Helpers.GetAngleFromDirection(this.Direction);
 
             angle -= 90;
 

@@ -7,7 +7,8 @@ namespace PlayerControls.Weapons
     {
         None,
 
-        Classic
-        //Laser
+        Classic,
+        
+        Dart
     }
 }
