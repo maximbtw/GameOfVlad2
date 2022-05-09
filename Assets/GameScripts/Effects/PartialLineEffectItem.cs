@@ -1,6 +1,5 @@
 ﻿using System;
 using Components;
-using Shared;
 using UnityEngine;
 
 namespace Effects
@@ -9,13 +8,12 @@ namespace Effects
     {
         private float _rotationSpeed;
         private Timer _lifeSpanTimer;
-        private TransparencySpriteController _transparencyController;
+        private FadeEffect  _fadeEffect;
         private Vector2 _direction;
 
         public event Action LifeSpanTimeEnded;
 
         public void Initialize(
-            SpriteRenderer spriteRenderer, 
             float rotationSpeed, 
             Vector2 direction,
             float lifeSpanTime)
@@ -23,7 +21,9 @@ namespace Effects
             _rotationSpeed = rotationSpeed;
             _direction = direction;
             _lifeSpanTimer = new Timer(lifeSpanTime);
-            _transparencyController = new TransparencySpriteController(spriteRenderer, _lifeSpanTimer);
+            _fadeEffect = gameObject.AddComponent<FadeEffect>();
+
+            _fadeEffect.RunEffectAction(lifeSpanTime, minimumFadePercentEffect: 0);
 
             _lifeSpanTimer.Ended += LifeHasEnded;
             _lifeSpanTimer.Start();
@@ -37,8 +37,7 @@ namespace Effects
             }
             
             _lifeSpanTimer.Update();
-            _transparencyController.Update();
-            
+
             UpdateTransform();
         }
 

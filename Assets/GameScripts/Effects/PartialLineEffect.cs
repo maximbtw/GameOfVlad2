@@ -12,7 +12,7 @@ namespace Effects
         [SerializeField] private List<Sprite> sprites;
         [SerializeField] private List<Gradient> gradients;
         
-        [SerializeField] [Range(1, 100)] private int frequency;
+        [SerializeField] [Range(1, 100)] private int frequency = 1;
         [SerializeField] [Range(0, 5)] private float dispersion;
 
         [Header("Speed rotation")]
@@ -85,7 +85,7 @@ namespace Effects
 
             itemBody.LifeSpanTimeEnded += () => _countItems--;
 
-            itemBody.Initialize(itemsSpriteRenderer, speedRotation, forceDirection, lifeSpan);
+            itemBody.Initialize(speedRotation, forceDirection, lifeSpan);
         }
 
         [Serializable]
