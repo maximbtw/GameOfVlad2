@@ -13,7 +13,8 @@ namespace RigidbodyModels.Projectiles
 
         private Timer _lifespanTimer;
 
-        protected Vector2 TargetPosition;
+        protected Vector2? TargetPosition;
+        protected Vector2? FixedDirection;
         
         private RigidbodyModelBase _parent;
 
@@ -36,7 +37,8 @@ namespace RigidbodyModels.Projectiles
             GameObjectLayer layer,
             RigidbodyModelBase parent,
             Vector2 startPosition,
-            Vector2 targetPosition,
+            Vector2? targetPosition = null,
+            Vector2? fixedDirection = null,
             float? speedProjectile = null,
             int? damageProjectile = null,
             float? knockbackProjectile= null)
@@ -46,14 +48,27 @@ namespace RigidbodyModels.Projectiles
             _parent = parent;
             this.Damage = damageProjectile ?? this.Damage;
             this.Knockback = knockbackProjectile ?? this.Knockback;
-            maxSpeed = speedProjectile ?? this.maxSpeed;
-            TargetPosition = targetPosition;
+            this.maxSpeed = speedProjectile ?? this.maxSpeed;
+            this.TargetPosition = targetPosition;
+            this.FixedDirection = fixedDirection;
 
             _lifespanTimer = new Timer(lifespanTime);
             _lifespanTimer.Ended += () => Destroy(gameObject);
             _lifespanTimer.Start();
         }
-        
+
+        protected override bool TryGetDirection(out Vector2 direction)
+        {
+            direction = Vector2.zero;
+            
+            if (this.FixedDirection != null)
+            {
+                direction = (Vector2)this.FixedDirection;
+            }
+
+            return direction != Vector2.zero;
+        }
+
         protected override void Start()
         {
             base.Start();

@@ -9,6 +9,8 @@ namespace PlayerControls.Weapons
 
         Classic,
         
-        Dart
+        Dart,
+        
+        Buffalo
     }
 }

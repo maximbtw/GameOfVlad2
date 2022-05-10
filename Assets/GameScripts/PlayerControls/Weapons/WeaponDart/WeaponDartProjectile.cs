@@ -22,7 +22,7 @@ namespace PlayerControls.Weapons.WeaponDart
         {
             angle = Helpers.GetAngleFromDirection(this.CalculateDirection);
 
-            angle += 90;
+            angle += 180;
 
             return true;
         }
@@ -41,7 +41,7 @@ namespace PlayerControls.Weapons.WeaponDart
         {
             Vector2 currentPosition = transform.position;
 
-            Vector2 direction = TargetPosition - currentPosition;
+            Vector2 direction = (Vector2)TargetPosition - currentPosition;
 
             direction.Normalize();
 

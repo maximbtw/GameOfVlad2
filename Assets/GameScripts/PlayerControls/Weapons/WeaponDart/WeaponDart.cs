@@ -29,6 +29,7 @@ namespace PlayerControls.Weapons.WeaponDart
                 Player,
                 startPosition: Player.Position,
                 targetPosition: Controller.GetMousePosition(),
+                fixedDirection: null,
                 speedProjectile: null,
                 damage,
                 knockback);

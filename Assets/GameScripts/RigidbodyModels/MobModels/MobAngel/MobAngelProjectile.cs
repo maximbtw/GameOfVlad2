@@ -12,7 +12,8 @@ namespace RigidbodyModels.MobModels.MobAngel
             GameObjectLayer layer,
             RigidbodyModelBase parent, 
             Vector2 startPosition, 
-            Vector2 targetPosition, 
+            Vector2? targetPosition = null, 
+            Vector2? fixedDirection = null,
             float? speedProjectile = null, 
             int? damageProjectile = null,
             float? knockbackProjectile= null)
@@ -22,6 +23,7 @@ namespace RigidbodyModels.MobModels.MobAngel
                 parent, 
                 startPosition, 
                 targetPosition, 
+                fixedDirection,
                 speedProjectile, 
                 damageProjectile,
                 knockbackProjectile);
@@ -71,7 +73,8 @@ namespace RigidbodyModels.MobModels.MobAngel
         {
             Vector2 currentPosition = transform.position;
 
-            _fixedDirection = TargetPosition - currentPosition;
+            // ReSharper disable once PossibleInvalidOperationException
+            _fixedDirection = (Vector2)TargetPosition - currentPosition;
 
             _fixedDirection.Normalize();
         }

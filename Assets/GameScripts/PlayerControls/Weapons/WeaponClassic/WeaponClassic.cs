@@ -29,10 +29,13 @@ namespace PlayerControls.Weapons.WeaponClassic
                 GameObjectLayer.PlayerObject,
                 Player,
                 startPosition: Player.Position,
-                targetPosition: Controller.GetMousePosition(),
+                targetPosition: null,
+                fixedDirection: GetProjectileDirection(),
                 speedProjectile: null,
                 damage,
                 knockback);
         }
+
+        private Vector2 GetProjectileDirection() => (Controller.GetMousePosition() - Player.Position).normalized;
     }
 }

@@ -1,10 +1,11 @@
-﻿using RigidbodyModels.Projectiles;
+﻿using RigidbodyModels;
+using RigidbodyModels.Projectiles;
 using UnityEngine;
 using Utils;
 
-namespace PlayerControls.Weapons.WeaponClassic
+namespace PlayerControls.Weapons.WeaponBuffalo
 {
-    public class WeaponClassicProjectile : ProjectileModelBase
+    public class WeaponBuffaloProjectile : ProjectileModelBase
     {
         protected override bool TryUpdateDynamicMove(Vector2 direction, Vector2 velocity, out MoveOptions options)
         {
@@ -15,7 +16,7 @@ namespace PlayerControls.Weapons.WeaponClassic
 
             return true;
         }
-        
+
         protected override bool TryGetAngleRotation(float rotation, out float angle)
         {
             angle = Helpers.GetAngleFromDirection(this.Direction);
