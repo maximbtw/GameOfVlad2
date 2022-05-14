@@ -51,6 +51,8 @@ namespace PlayerControls.Weapons
             Player = gameObject.GetComponent<Player>();
 
             CooldownTimer = new Timer(shootCooldown);
+            
+            Controller.Shoot += Shoot;
         }
 
         protected virtual void Update()

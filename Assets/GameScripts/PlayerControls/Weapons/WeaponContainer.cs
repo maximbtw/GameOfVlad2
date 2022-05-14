@@ -15,7 +15,8 @@ namespace PlayerControls.Weapons
         {
             {WeaponType.Classic, typeof(WeaponClassic.WeaponClassic)},
             {WeaponType.Dart, typeof(WeaponDart.WeaponDart)},
-            {WeaponType.Buffalo, typeof(WeaponBuffalo.WeaponBuffalo)}
+            {WeaponType.Buffalo, typeof(WeaponBuffalo.WeaponBuffalo)},
+            {WeaponType.Impaler, typeof(WeaponImpaler.WeaponImpaler)}
         };
 
         private void Awake()

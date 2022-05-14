@@ -66,8 +66,10 @@ namespace RigidbodyModels.MobModels.MobAngel
             UpdateState(playerInVisibilityDistance);
         }
 
-        protected override bool TryUpdateDynamicMove(Vector2 direction, Vector2 velocity, out MoveOptions options)
+        protected override bool TryUpdateDynamicMove(Vector2 velocity, out MoveOptions options)
         {
+            Vector2 direction = this.Direction;
+            
             bool playerInTheMinimumDistance = PlayerInTheMinimumDistance();
             bool playerInTheMaximumDistance = PlayerInVisibilityDistance();
             

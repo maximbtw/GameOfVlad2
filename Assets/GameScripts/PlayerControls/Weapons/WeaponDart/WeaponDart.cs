@@ -7,6 +7,7 @@ namespace PlayerControls.Weapons.WeaponDart
     public class WeaponDart : WeaponBase
     {
         [SerializeField] private WeaponDartProjectile bulletPrefab;
+        
         public override WeaponType GetWeaponType() => WeaponType.Dart;
         
         private void Awake()
@@ -16,8 +17,6 @@ namespace PlayerControls.Weapons.WeaponDart
                     typeof(WeaponDartProjectile)) as WeaponDartProjectile;
             
             Controller = gameObject.AddComponent<WeaponDartController>();
-
-            Controller.Shoot += Shoot;
         }
 
         protected override void CreateBullet()

@@ -76,21 +76,29 @@ namespace RigidbodyModels.Projectiles
             CollisionWithNotStaticRigidbodyModel += OnHitNotStaticObject;
             CollisionWithStaticRigidbodyModel += OnHitStaticObject;
         }
-        
-        protected override void OnCollisionEnter2D(Collision2D other)
-        {
-            base.OnCollisionEnter2D(other);
 
+        private void OnCollisionEnter2D(Collision2D other)
+        {
             var collisionModel = other.gameObject.GetComponent<RigidbodyModelBase>();
 
+            HandleCollision(collisionModel);
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            var collisionModel = other.gameObject.GetComponent<RigidbodyModelBase>();
+
+            HandleCollision(collisionModel);
+        }
+
+        private void HandleCollision(RigidbodyModelBase collisionModel)
+        {
             if (collisionModel == null || collisionModel == _parent)
             {
                 return;
             }
 
             var eventArgs = new CollisionEnterEventArgs(collisionModel);
-
-            collisionModel.OnProjectileHit(this, eventArgs);
 
             switch (collisionModel.Layer)
             {
@@ -117,10 +125,12 @@ namespace RigidbodyModels.Projectiles
 
         protected virtual void OnHitNotStaticObject(object sender, CollisionEnterEventArgs e)
         {
+            e.HitObject.OnProjectileHit(this);
         }
 
         protected virtual void OnHitStaticObject(object sender, CollisionEnterEventArgs e)
         {
+            e.HitObject.OnProjectileHit(this);
         }
     }
 }

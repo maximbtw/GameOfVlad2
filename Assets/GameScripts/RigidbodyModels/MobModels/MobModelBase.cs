@@ -13,7 +13,7 @@ namespace RigidbodyModels.MobModels
         [SerializeField] [Range(1, 100000)] private int maxHeatPoint = 10;
         [SerializeField] [Range(0, 100000)] private int damage = 1;
         [SerializeField] private int armor = 1;
-
+        
         private HeatBarMobLineComponent _heatBarComponent;
         private Player _player;
 
@@ -25,8 +25,6 @@ namespace RigidbodyModels.MobModels
         public int Armor => armor;
         public int Damage => damage;
 
-        //public MobModelBase Parent { get; }
-        
         public event EventHandler<MobTakeDamageEventArgs> TakeDamage;
         public event EventHandler<MobDestroyedEventArgs> Destroyed;
 
@@ -47,10 +45,10 @@ namespace RigidbodyModels.MobModels
             return true;
         }
 
-        public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
+        public override void OnProjectileHit(ProjectileModelBase sender)
         {
             TakeDamage?.Invoke(sender: this,new MobTakeDamageEventArgs(sender));
-            
+
             SetDamage(sender.Damage);
             SetKnockback(sender.Direction, sender.Knockback);
         }

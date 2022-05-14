@@ -1,4 +1,5 @@
-﻿using RigidbodyModels.Projectiles;
+﻿using System;
+using RigidbodyModels.Projectiles;
 using UnityEngine;
 
 namespace RigidbodyModels
@@ -14,6 +15,8 @@ namespace RigidbodyModels
         private Vector2 _direction;
         private SpriteRenderer _spriteRenderer;
 
+        public Guid Guid { get; private set; }
+
         public Vector2 Position => _body.position;
         public GameObjectLayer Layer => (GameObjectLayer) _body.gameObject.layer;
         public Vector2 Size => _spriteRenderer.size;
@@ -28,6 +31,8 @@ namespace RigidbodyModels
             SetLayer();
             
             LateStart();
+
+            Guid = Guid.NewGuid();
         }
 
         protected virtual void LateStart()
@@ -46,11 +51,6 @@ namespace RigidbodyModels
             UpdateMaxVelocity();
             UpdateRotation();
             UpdateAdditionalData();
-        }
-
-        protected virtual void OnCollisionEnter2D(Collision2D col)
-        {
-
         }
 
         protected virtual bool TryGetLayer(out GameObjectLayer layer)
@@ -75,7 +75,7 @@ namespace RigidbodyModels
             _body.gravityScale = gravityScale;
         }
 
-        public virtual void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
+        public virtual void OnProjectileHit(ProjectileModelBase sender)
         {
         }
 

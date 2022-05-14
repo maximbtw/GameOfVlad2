@@ -17,8 +17,6 @@ namespace PlayerControls.Weapons.WeaponClassic
                     typeof(WeaponClassicProjectile)) as WeaponClassicProjectile;
             
             Controller = gameObject.AddComponent<WeaponClassicController>();
-
-            Controller.Shoot += Shoot;
         }
 
         protected override void CreateBullet()

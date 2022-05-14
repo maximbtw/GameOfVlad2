@@ -40,11 +40,11 @@ namespace RigidbodyModels.MobModels.MobAngel
             return true;
         }
         
-        protected override bool TryUpdateDynamicMove(Vector2 direction, Vector2 velocity, out MoveOptions options)
+        protected override bool TryUpdateDynamicMove(Vector2 velocity, out MoveOptions options)
         {
             options = new MoveOptions
             {
-                Velocity = direction * maxSpeed
+                Velocity = this.Direction * maxSpeed
             };
 
             return true;
@@ -61,11 +61,15 @@ namespace RigidbodyModels.MobModels.MobAngel
 
         protected override void OnHitNotStaticObject(object sender, CollisionEnterEventArgs e)
         {
+            base.OnHitNotStaticObject(sender, e);
+            
             Destroy(gameObject);
         }
 
         protected override void OnHitStaticObject(object sender, CollisionEnterEventArgs e)
         {
+            base.OnHitStaticObject(sender, e);
+            
             Destroy(gameObject);
         }
         

@@ -72,6 +72,7 @@ namespace PlayerControls.Controller
             AddWeapon(WeaponType.Classic);
             AddWeapon(WeaponType.Dart);
             AddWeapon(WeaponType.Buffalo);
+            AddWeapon(WeaponType.Impaler);
 
 
             // TODO: Загружем доступные оружия);

@@ -29,11 +29,15 @@ namespace PlayerControls.Weapons.WeaponDart
 
         protected override void OnHitNotStaticObject(object sender, CollisionEnterEventArgs e)
         {
+            base.OnHitNotStaticObject(sender, e);
+            
             Destroy(gameObject);
         }
 
         protected override void OnHitStaticObject(object sender, CollisionEnterEventArgs e)
         {
+            base.OnHitStaticObject(sender, e);
+            
             Destroy(gameObject);
         }
         

@@ -6,11 +6,9 @@ namespace PlayerControls.Weapons
     public enum WeaponType
     {
         None,
-
         Classic,
-        
         Dart,
-        
-        Buffalo
+        Buffalo,
+        Impaler
     }
 }

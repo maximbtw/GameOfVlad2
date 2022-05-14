@@ -20,7 +20,7 @@ namespace RigidbodyModels.PlayerModel
             return _weaponController.CurrentWeaponType;
         }
         
-        public override void OnProjectileHit(ProjectileModelBase sender, CollisionEnterEventArgs e)
+        public override void OnProjectileHit(ProjectileModelBase sender)
         {
             SetDamage(sender.Damage);
             SetKnockback(sender.Direction, sender.Knockback);

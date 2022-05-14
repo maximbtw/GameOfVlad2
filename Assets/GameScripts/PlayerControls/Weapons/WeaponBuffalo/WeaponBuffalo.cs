@@ -21,8 +21,6 @@ namespace PlayerControls.Weapons.WeaponBuffalo
                     typeof(WeaponBuffaloProjectile)) as WeaponBuffaloProjectile;
 
             Controller = gameObject.AddComponent<WeaponBuffaloController>();
-
-            Controller.Shoot += Shoot;
         }
 
         protected override void CreateBullet()

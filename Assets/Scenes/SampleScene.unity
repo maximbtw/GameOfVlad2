@@ -675,6 +675,10 @@ MonoBehaviour:
     damage: 5
     shootCooldown: 1
     knockback: 5
+  - type: 4
+    damage: 5
+    shootCooldown: 2
+    knockback: 0
 --- !u!1 &1831728503
 GameObject:
   m_ObjectHideFlags: 0
